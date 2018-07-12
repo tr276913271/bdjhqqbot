@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import json, requests, random
+import wowplay
+
 def onQQMessage(bot, contact, member, content):
   if content[:5:] != '[@ME]':
      return 0
@@ -12,6 +14,8 @@ def onQQMessage(bot, contact, member, content):
     bot.Stop()
   elif content.startswith('roll'):
     bot.SendTo(contact,roll(content))
+  elif wowplay.shouldService(contact):
+    bot.SendTo(contact,wowplay.service(content))
   else:
     d = {
       'key' : '',
