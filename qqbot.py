@@ -37,8 +37,11 @@ def roll(content):
     result = 0
     if(len(strlist)>1):
       result = random.randint(0,int(strlist[1]))
+      result = str(result)
     else:
       result = random.randint(0,100)
+      result = str(result)
   except:
     result = random.randint(0,100)
+    result = str(result)
   return result
