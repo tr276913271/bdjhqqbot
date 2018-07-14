@@ -1,18 +1,27 @@
 # -*- coding: utf-8 -*-
 import json, requests, random
-import wowplay, imoutotime
-
+import wowplay, imoutotime, parents, qiandao
+from  sensitive_words import SensitiveWorldModule
 
 def onQQMessage(bot, contact, member, content):
   if content[:5:] != '[@ME]':
      return 0
   content = content[7:]
+  ##如果是敏感词
+  if(SensitiveWorldModule().isSensitiveWorld(content)):
+	  return 0
 
   if content == '':
-    bot.SendTo(contact,imoutotime.iotimes())
+    bot.SendTo(contact,imoutotime.iotimes() + member.name)
+  elif (parents.parent(content)):
+    bot.SendTo(contact,parents.parent(content))
   elif content == '你该睡觉了':
     bot.SendTo(contact,'本萌妹睡了，不要喊我了')
     bot.Stop()
+  elif content == '大给币':
+    bot.SendTo(contact,qiandao.signIn(member.name))
+  elif content == '查询':
+    bot.SendTo(contact,qiandao.queryIn(member.name))
   elif content.startswith('roll'):
     bot.SendTo(contact,roll(content))
 #  elif wowplay.shouldService(contact):
@@ -38,6 +47,7 @@ def onQQMessage(bot, contact, member, content):
     elif rs['code'] == 200000:
       rs['text'] = rs['text'].replace('亲，已帮你找到列车信息','要去千里送吗，给你')
       rs['text'] = rs['text'].replace('亲，已帮你找到图片','HSO，诺，给你')
+      rs['text'] = rs['text'].replace('亲','欧尼酱')
       bot.SendTo(contact,rs['text'] + '\n' + rs['url'])
     else:
       bot.SendTo(contact,'暂时不支持的技能，来个程序员啊！')
