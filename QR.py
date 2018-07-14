@@ -1,38 +1,41 @@
-# -*- coding: utf-8 -*-
-import json, requests, random
-import wowplay,roll
-from  sensitive_words import SensitiveWorldModule
+#- * -coding: utf - 8 - * -
+from other_module.sensitive_words import SensitiveWorldModule
+from bulletin_board_module.bulletin_board import BBS
+from other_module.roll import Roll
+from wow_module.wowplay import WowPlayService
+from other_module.imoutotime import TimeService
+from big_gay_module.sign_in import SignInService
+from turing_module.turing_service import TuringService
+from wow_module.looking_for_group import LookingForGroupService
+#from mock_bot import MockBot
+
 
 def onQQMessage(bot, contact, member, content):
-  if content[:5:] != '[@ME]':
-     return 0
-  content = content[7:]
-  ##如果是敏感词
-  if(SensitiveWorldModule().isSensitiveWorld(content)):
-	return 0
-  
-  if content == '':
-    bot.SendTo(contact,'嗨哆磨，在下SuperAI！')
-  elif content == '你该睡觉了':
-    bot.SendTo(contact,'本萌妹睡了，不要喊我了')
-    bot.Stop()
-  elif content.startswith('roll'):
-    bot.SendTo(contact,roll.roll(content))
-  elif wowplay.shouldService(contact):
-    bot.SendTo(contact,wowplay.service(content))
-  else:
-    d = {
-      'key' : '',
-      'info' : content
-    }
-    rs = requests.post('http://www.tuling123.com/openapi/api', data = d)
-    rs = rs.text
-    rs = json.loads(rs)
-    if rs['code'] == 40004:
-      bot.SendTo(contact,'本萌妹累了，明天再找我吧')
-    elif rs['code'] == 100000:
-      bot.SendTo(contact,rs['text'])
-    elif rs['code'] == 200000:
-      bot.SendTo(contact,rs['text'] + '\n' + rs['url'])
-    else:
-      bot.SendTo(contact,'暂时不支持的技能，来个程序员啊！')
+    if content[: 5: ] != '[@ME]':
+        return 0
+    content = content[7:]## 如果是敏感词
+
+    if (SensitiveWorldModule().isSensitiveWorld(content)):
+        return 0## 公告功能
+    if (BBS().shouldService(content)):
+        return BBS().service(content)
+    if (LookingForGroupService().shouldService(member,content)):
+        return bot.SendTo(contact, LookingForGroupService().service(member))
+    if content == '':
+        bot.SendTo(contact, TimeService().iotimes() + member.name)
+    elif content == '你该睡觉了QWER':
+        bot.SendTo(contact, '本萌妹睡了，不要喊我了')
+        bot.Stop()
+    elif Roll().shouldService(content):
+        bot.SendTo(contact, Roll().roll(content))
+    elif WowPlayService().shouldService(content):
+        bot.SendTo(contact, WowPlayService().service())
+    elif SignInService().shouldService(content):
+        bot.SendTo(contact, SignInService().service(member.name,content))
+    else :
+        bot.SendTo(contact, TuringService().service(content))
+
+# if __name__ == '__main__':
+#     onQQMessage(MockBot(), "aa", "bb", "[@ME]..求组队")
+#     onQQMessage(MockBot(), "aa", "asabb", "[@ME]..求组队")
+#     print(LookingForGroupService.ticks)

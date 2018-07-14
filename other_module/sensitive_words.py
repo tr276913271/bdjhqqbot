@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import sensitive_words
-
 class SensitiveWorldModule:
 
     def isSensitiveWorld(self,content):
