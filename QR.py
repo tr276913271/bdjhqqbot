@@ -1,19 +1,23 @@
 # -*- coding: utf-8 -*-
 import json, requests, random
-import wowplay
+import wowplay,roll
+from  sensitive_words import SensitiveWorldModule
 
 def onQQMessage(bot, contact, member, content):
   if content[:5:] != '[@ME]':
      return 0
   content = content[7:]
-
+  ##如果是敏感词
+  if(SensitiveWorldModule().isSensitiveWorld(content)):
+	return 0
+  
   if content == '':
     bot.SendTo(contact,'嗨哆磨，在下SuperAI！')
   elif content == '你该睡觉了':
     bot.SendTo(contact,'本萌妹睡了，不要喊我了')
     bot.Stop()
   elif content.startswith('roll'):
-    bot.SendTo(contact,roll(content))
+    bot.SendTo(contact,roll.roll(content))
   elif wowplay.shouldService(contact):
     bot.SendTo(contact,wowplay.service(content))
   else:
@@ -32,20 +36,3 @@ def onQQMessage(bot, contact, member, content):
       bot.SendTo(contact,rs['text'] + '\n' + rs['url'])
     else:
       bot.SendTo(contact,'暂时不支持的技能，来个程序员啊！')
-
-def roll(content):
-  if(not content.startswith("roll")):
-    return 0
-  try:
-    strlist = content.split(" ")
-    result = 0
-    if(len(strlist)>1):
-      result = random.randint(0,int(strlist[1]))
-      result = str(result)
-    else:
-      result = random.randint(0,100)
-      result = str(result)
-  except:
-    result = random.randint(0,100)
-    result = str(result)
-  return result
