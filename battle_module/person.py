@@ -1,6 +1,5 @@
 # -*- coding: UTF-8 -*-
-from equipment import Equipment
-from equipment_db import EquipmentDB
+from battle_module import *
 import json
 
 class Person:
@@ -12,7 +11,15 @@ class Person:
         self.hp = 100
         self.level = 1
         self.exp = 1
-        Equipment.initPerson(self)
+        equipment_db.EquipmentDB.initPerson(self)
+
+    def initWithDB(self,tuple):
+        self.weapon = equipment_db.EquipmentDB.EDB[tuple[8]]
+        self.head = equipment_db.EquipmentDB.EDB[tuple[6]]
+        self.breast = equipment_db.EquipmentDB.EDB[tuple[7]]
+        self.hp = tuple[2]
+        self.level = tuple[1]
+        self.exp = tuple[3]
 
     def attack(self):
         return self.weapon.atk

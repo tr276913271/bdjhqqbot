@@ -30,14 +30,19 @@ class DBHelper:
         conn.close()
 
     def insert(self,sql):
-        self.update(sql)
+        conn = self.getConnection()
+        cur = conn.cursor()
+        cur.execute(sql)
+        conn.commit()
+        conn.close()
+        return cur.lastrowid
 
     def delete(self,sql):
         self.update(sql)
 
 if __name__ == '__main__':
     print (DBHelper().insert("INSERT INTO `user` (`name`, `coin`, `coinDate`, `thiefDate`) VALUES ('assa', NULL, NULL, NULL)"))
-    print (DBHelper().selectOne("select * from user where id=1"))
+    print (DBHelper().selectOne("select * from user where id=111"))
     print (DBHelper().selectAll("select * from user where name='aaq'"))
     print (DBHelper().update("update user set `coinDate`='2009-09-09' where id=1"))
     print (DBHelper().delete("delete from user where name='assa'"))
