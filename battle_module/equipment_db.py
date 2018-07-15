@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 from equipment import Equipment
+from db_module.connct_db import DBHelper
 
 class EquipmentDB:
     EDB =[
