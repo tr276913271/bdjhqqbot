@@ -13,25 +13,34 @@ from wow_module.looking_for_group import LookingForGroupService
 def onQQMessage(bot, contact, member, content):
     if content[: 5: ] != '[@ME]':
         return 0
-    content = content[7:]## 如果是敏感词
-
+    content = content[7:]
+    ## 如果是敏感词
     if (SensitiveWorldModule().isSensitiveWorld(content)):
-        return 0## 公告功能
+        return 0
+    ## 公告功能
     if (BBS().shouldService(content)):
-        return BBS().service(content)
+        bot.SendTo(contact, BBS().service(content))
+    ## WOW打本吆喝
     if (LookingForGroupService().shouldService(member.name,content)):
-        return bot.SendTo(contact, LookingForGroupService().service(member.name))
+        bot.SendTo(contact, LookingForGroupService().service(member.name))
+    # 妹妹时间
     if content == '':
         bot.SendTo(contact, TimeService().iotimes() + member.name)
+    # 远程关闭
     elif content == '你该睡觉了QWER':
-        bot.SendTo(contact, '本萌妹睡了，不要喊我了')
-        bot.Stop()
+        if member.name == '想要过平静生活的七花' or member.name == '所有人都过来/zs/酒仙':
+            bot.SendTo(contact, '好的，我去睡觉了~')
+            bot.Stop()
+    # ROLL点
     elif Roll().shouldService(content):
         bot.SendTo(contact, Roll().roll(content))
+    # WOW玩什么职业
     elif WowPlayService().shouldService(content):
         bot.SendTo(contact, WowPlayService().service())
+    # 大给币签到系统
     elif SignInService().shouldService(content):
         bot.SendTo(contact, SignInService().service(member.name,content))
+    # 图灵API
     else :
         bot.SendTo(contact, TuringService().service(content))
 
