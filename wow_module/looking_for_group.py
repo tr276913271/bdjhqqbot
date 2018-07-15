@@ -9,7 +9,7 @@ class LookingForGroupService:
         if(content=='求组队'):
             if(int(time.time())>LookingForGroupService.ticks):
                 LookingForGroupService.groupMember.clear()
-                LookingForGroupService.ticks = int(time.time())+1
+                LookingForGroupService.ticks = int(time.time())+600
             LookingForGroupService.groupMember.add(member)
             return True
         return False
