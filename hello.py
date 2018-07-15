@@ -1,5 +1,12 @@
 import random
 
+from battle_module import *
+
+
+if __name__ == '__main__':
+    for e in equipment_db.EquipmentDB.EDB:
+        print(e.showInfo())
+
 
 '''
 本馆101孬102球103介104被炸毁105所有人106小马107七花108真红
@@ -26,9 +33,9 @@ import random
 |    102      |       |               |
 |             |       |               |
 |             |       |---------------|---
-|             |                      
-|-------------|                      
-|             |                      
+|             |
+|-------------|
+|             |
 |             |       |---------------|---
 |             |       |               |
 |    103      |       |               |
@@ -49,7 +56,3 @@ import random
 
 def urineHomeInfo(content):
   return 0
-	
-	
-
-print("Hello, World!")

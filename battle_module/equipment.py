@@ -1,12 +1,13 @@
 # -*- coding: UTF-8 -*-
 
 class Equipment:
-    def __init__(self,name,type,id,atk,defs):
-        self.name = name
-        self.type = type
-        self.id = id
-        self.atk = atk
-        self.defs = defs
+    def __init__(self,tuple):
+        self.id = tuple[0]
+        self.desc = tuple[1]
+        self.name = tuple[2]
+        self.type = tuple[3]
+        self.atk = tuple[4]
+        self.defs = tuple[5]
 
     def initPerson(p):
         p.weapon = Equipment("破旧的剑",2,2,10,0)

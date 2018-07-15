@@ -23,6 +23,7 @@ class BBS:
 
 if __name__ == '__main__':
     b = BBS()
+    c = BBS()
     if(b.shouldService("半姬私语设置")):
         print(b.service("半姬私语设置 隧道发生的"))
-        print(b.service("半姬私语"))
+        print(c.service("半姬私语"))
