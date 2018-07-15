@@ -7,6 +7,7 @@ from other_module.imoutotime import TimeService
 from big_gay_module.sign_in import SignInService
 from turing_module.turing_service import TuringService
 from wow_module.looking_for_group import LookingForGroupService
+from other_module.parents import ParentService
 #from mock_bot import MockBot
 
 
@@ -26,19 +27,22 @@ def onQQMessage(bot, contact, member, content):
     # 妹妹时间
     if content == '':
         bot.SendTo(contact, TimeService().iotimes() + member.name)
+    # 妈妈爸爸
+    elif (ParentService().parent(content)):
+      bot.SendTo(ParentService().parent(content))
     # 远程关闭
     elif content == '你该睡觉了QWER':
         if member.name == '想要过平静生活的七花' or member.name == '所有人都过来/zs/酒仙':
             bot.SendTo(contact, '好的，我去睡觉了~')
             bot.Stop()
     # ROLL点
-    elif Roll().shouldService(content):
+    elif (Roll().shouldService(content)):
         bot.SendTo(contact, Roll().roll(content))
     # WOW玩什么职业
-    elif WowPlayService().shouldService(content):
+    elif (WowPlayService().shouldService(content)):
         bot.SendTo(contact, WowPlayService().service())
     # 大给币签到系统
-    elif SignInService().shouldService(content):
+    elif (SignInService().shouldService(content)):
         bot.SendTo(contact, SignInService().service(member.name,content))
     # 图灵API
     else :
