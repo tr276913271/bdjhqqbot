@@ -19,8 +19,8 @@ def onQQMessage(bot, contact, member, content):
         return 0## 公告功能
     if (BBS().shouldService(content)):
         return BBS().service(content)
-    if (LookingForGroupService().shouldService(member,content)):
-        return bot.SendTo(contact, LookingForGroupService().service(member))
+    if (LookingForGroupService().shouldService(member.name,content)):
+        return bot.SendTo(contact, LookingForGroupService().service(member.name))
     if content == '':
         bot.SendTo(contact, TimeService().iotimes() + member.name)
     elif content == '你该睡觉了QWER':
