@@ -10,5 +10,11 @@ class BattleService:
     def service(self,member):
         dao = BattleDao()
         if(dao.isNewUser(member)):
-            dao.insertNewUser(member)
+            uid = dao.insertNewUser(member)
+            dao.insertBattle(uid)
+        else:
+            uid = dao.selectUid(member)
+            print(uid[0])
+            if(dao.isNewBattle(uid[0])):
+                dao.insertBattle(uid[0])
         return dao.selectUser(member).showInfo()

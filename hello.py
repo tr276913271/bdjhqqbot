@@ -4,7 +4,7 @@ from battle_module import *
 from db_module.connect_db import *
 
 if __name__ == '__main__':
-    print(battle_service.BattleService().service("ssssss"))
+    print(battle_service.BattleService().service("sssssss"))
     p = person.Person("kgm")
     print(p.showInfo())
     print(DBHelper().selectOne("select * from user where id=1"))
