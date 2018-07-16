@@ -1954,4 +1954,9 @@ class SensitiveWorldModule:
         'narcotic',
         '麻醉药',
         '精神药品',
-        '爱女人']
+        '爱女人',
+        '屎',
+        '尿',
+        '屁',
+        '大便'
+        ]
