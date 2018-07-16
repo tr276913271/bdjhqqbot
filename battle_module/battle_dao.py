@@ -10,7 +10,7 @@ class BattleDao:
 
     def insertNewUser(self,member):
         db = DBHelper()
-        uid = db.insert("insert into user(`name`, `coin`, `coinDate`, `thiefDate`) VALUES ('"+str(member)+"',0, NULL, NULL)")
+        uid = db.insert("insert into user(`name`, `coin`, `coinDate`) VALUES ('"+str(member)+"',0, NULL)")
         p = Person(member)
         db.insert("insert into battle(`level`, `hp`, `experience`, `attack`, `defense`, `head`, `body`, `weapon`, `userId`) VALUES (\
             1,100, 0,"+str(p.attack())+","+str(p.defensive())+",1,3,2, '"+str(uid)+"')")

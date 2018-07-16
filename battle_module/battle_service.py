@@ -7,8 +7,8 @@ class BattleService:
             return True
         return False
 
-    def servcie(self,member):
+    def service(self,member):
         dao = BattleDao()
         if(dao.isNewUser(member)):
             dao.insertNewUser(member)
-        print(dao.selectUser(member).showInfo())
+        return dao.selectUser(member).showInfo()
