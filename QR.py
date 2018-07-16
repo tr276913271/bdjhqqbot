@@ -19,13 +19,13 @@ def onQQMessage(bot, contact, member, content):
     if (SensitiveWorldModule().isSensitiveWorld(content)):
         return 0
     ## 公告功能
-    if (BBS().shouldService(content)):
+    elif (BBS().shouldService(content)):
         bot.SendTo(contact, BBS().service(content))
     ## WOW打本吆喝
-    if (LookingForGroupService().shouldService(member.name,content)):
+    elif (LookingForGroupService().shouldService(member.name,content)):
         bot.SendTo(contact, LookingForGroupService().service(member.name))
     # 妹妹时间
-    if content == '':
+    elif content == '':
         bot.SendTo(contact, TimeService().iotimes() + member.name)
     # 妈妈爸爸
     elif (ParentService().parent(content)):
