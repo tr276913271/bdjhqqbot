@@ -5,7 +5,7 @@ from db_module.data_tuple_to_str import DBTStr
 
 #db = pymysql.connect("localhost","root","159263","buket" )
 class SignInSystem:
-    def shoudlService(self, content):
+    def shouldService(self,content):
         if content == '大给币':
             return True
         if content == '查询':
@@ -38,7 +38,7 @@ class SignInSystem:
             allCoin = int(DBTStr().userCoinStr(member)) + coinIncrement
             #thisCoin = int(thisCoinStr) + coinIncrement
             allCoin = str(allCoin)
-            DBHelper().update("update user set `coin`= '"+str(allCoin+)"' where name = '"+member+"' ")
+            DBHelper().update("update user set `coin`= '"+str(allCoin)+"' where name = '"+member+"' ")
             DBHelper().update("update user set `coinDate`='"+timeToday+"' where name = '"+member+"' ")
             menstr = '耶~' + member + '欧尼酱今天获取了' + str(coinIncrement) + '个大给币！' + '\n欧尼酱现在一共有' + str(allCoin) + '个大给币哟~'
         else:

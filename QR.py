@@ -4,7 +4,7 @@ from bulletin_board_module.bulletin_board import BBS
 from other_module.roll import Roll
 from wow_module.wowplay import WowPlayService
 from other_module.imoutotime import TimeService
-from big_gay_module.sign_in import SignInService
+from big_gay_module.sign_in import SignInSystem
 from turing_module.turing_service import TuringService
 from wow_module.looking_for_group import LookingForGroupService
 from other_module.parents import ParentService
@@ -42,8 +42,8 @@ def onQQMessage(bot, contact, member, content):
     elif (WowPlayService().shouldService(content)):
         bot.SendTo(contact, WowPlayService().service())
     # 大给币签到系统
-    elif (SignInService().shouldService(content)):
-        bot.SendTo(contact, SignInService().service(member.name,content))
+    elif (SignInSystem().shouldService(content)):
+        bot.SendTo(contact, SignInSystem().service(member.name,content))
     # 图灵API
     else :
         bot.SendTo(contact, TuringService().service(content))
