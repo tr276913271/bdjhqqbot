@@ -23,7 +23,7 @@ class SignInSystem:
 
         #没有用户自动创建
         if len(DBHelper().selectAll("select name from user where name = '"+str(member)+"' ")) == 0:
-            DBHelper().insert("INSERT INTO `user` (`name`, `coin`, `coinDate`, `thiefDate`) VALUES ('"+str(member)+"', 0, NULL, NULL)")
+            DBHelper().insert("INSERT INTO `user` (`name`, `coin`, `coinDate`) VALUES ('"+str(member)+"', 0, NULL)")
 
         #用户签到变量声明
         timeToday = time.strftime("%Y-%m-%d", time.localtime())
