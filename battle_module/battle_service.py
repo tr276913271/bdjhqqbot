@@ -14,7 +14,6 @@ class BattleService:
             dao.insertBattle(uid)
         else:
             uid = dao.selectUid(member)
-            print(uid[0])
             if(dao.isNewBattle(uid[0])):
                 dao.insertBattle(uid[0])
         return dao.selectUser(member).showInfo()

@@ -9,7 +9,7 @@ class BattleDao:
         return False
 
     def isNewBattle(self,id):
-        result = DBHelper().selectOne("select * from battle where id="+str(id)+"")
+        result = DBHelper().selectOne("select * from battle where userId="+str(id)+"")
         if(result==None):
             return True
         return False
