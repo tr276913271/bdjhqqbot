@@ -8,6 +8,7 @@ from big_gay_module.sign_in import SignInSystem
 from turing_module.turing_service import TuringService
 from wow_module.looking_for_group import LookingForGroupService
 from other_module.parents import ParentService
+from remote_module.supervise import AdminSupervise
 #from mock_bot import MockBot
 
 
@@ -30,11 +31,11 @@ def onQQMessage(bot, contact, member, content):
     # 妈妈爸爸
     elif (ParentService().parent(content)):
       bot.SendTo(ParentService().parent(content))
-    # 远程关闭
-    elif content == '你该睡觉了QWER':
-        if member.name == '想要过平静生活的七花' or member.name == '所有人都过来/zs/酒仙':
-            bot.SendTo(contact, '好的，我去睡觉了~')
-            bot.Stop()
+    
+    #elif content == '你该睡觉了QWER':
+        #if member.name == '想要过平静生活的七花' or member.name == '所有人都过来/zs/酒仙':
+            #bot.SendTo(contact, '好的，我去睡觉了~')
+            #bot.Stop()
     # ROLL点
     elif (Roll().shouldService(content)):
         bot.SendTo(contact, Roll().roll(content))
@@ -44,6 +45,9 @@ def onQQMessage(bot, contact, member, content):
     # 大给币签到系统
     elif (SignInSystem().shouldService(content)):
         bot.SendTo(contact, SignInSystem().service(member.name,content))
+    # 远程关闭
+    elif (AdminSupervise().turnOff(content, member.name))
+        return 0
     # 图灵API
     else :
         bot.SendTo(contact, TuringService().service(content))
