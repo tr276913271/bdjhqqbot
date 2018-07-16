@@ -22,7 +22,7 @@ def onQQMessage(bot, contact, member, content):
         return 0
     ## 如果是敏感词
     if (BattleService().shouldService(content)):
-        return bot.SendTo(contact, BattleService().service(content))
+        return bot.SendTo(contact, BattleService().service(member.name))
     ## 公告功能
     elif (BBS().shouldService(content)):
         bot.SendTo(contact, BBS().service(content))
