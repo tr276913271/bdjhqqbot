@@ -6,9 +6,11 @@ from db_module.data_tuple_to_str import DBTStr
 class TheftSystem:
     #member1 偷窃人 member2被偷窃人
     def theftFun(self, member1, member2):
+        userCoinIntS = DBTStr().userCoinStr(member2)
+        userCoinInt = int(userCoinIntS)
         if random.random() < 0.2:
             self.menstr = member1+ '欧尼酱' +'你被对方发现了呢！偷窃失败！蛤你！'
-        elif: int(DBTStr().userCoinStr(member2)) < 10 :
+        elif userCoinInt < 10:
             self.menstr = member2 + '欧尼酱的大给币太少了呢，都藏在胖次里了你偷不到了。'
         else:
             self.allCoin = int(DBTStr().userCoinStr(member2))
