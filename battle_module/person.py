@@ -1,8 +1,8 @@
 # -*- coding: UTF-8 -*-
 from battle_module import *
 from db_module.code_db import CodeDBService
-import json
-import random
+import json,math,random
+
 
 class Person:
     def __init__(self,name):
@@ -54,21 +54,46 @@ class Person:
         return json.dumps(self,default=lambda obj: obj.__dict__,ensure_ascii=False)
 
     def battleWith(self,userId):
-        return BattleProcess.battleWith(self.id,userId)
+        return BattleProcess().battleWith(self,userId)
 
 class BattleProcess:
-    def battleWith(a,b):
+    def damage(self,a):
+        flag = False
+        damage =  math.floor(a.attack()*round(1+random.uniform(-0.2,0.2),2))
+        if(random.randint(1,10)<=2):
+            damage = 2*damage
+            flag = True
+        return damage, flag
+
+    def oneRound(self,a,b,flag):
+        catk, crit = self.damage(a)
+        cdef = b.defensive()
+        b.hp = b.hp-(catk-cdef)
+        if(flag):
+            if(crit):
+                self.result += "我方造成暴击伤害:"+str(catk-cdef)+",对方当前HP:"+str(b.hp)+"\n"
+            else:
+                self.result += "我方造成伤害:"+str(catk-cdef)+",对方当前HP:"+str(b.hp)+"\n"
+        else:
+            if(crit):
+                self.result += "对方造成暴击伤害:"+str(catk-cdef)+",我方当前HP:"+str(b.hp)+"\n"
+            else:
+                self.result += "对方造成伤害:"+str(catk-cdef)+",我方当前HP:"+str(b.hp)+"\n"
+
+    def battleWith(self,a,b):
+        self.result = a.name + " HP:"+str(a.hp)+" ATK:"+str(a.attack())+" DEF:"+str(a.defensive())+"\n"
+        self.result += b.name + " HP:"+str(b.hp)+" ATK:"+str(a.attack())+" DEF:"+str(b.defensive())+"\n"
         if(b.hp<=0):
-            return "对方濒死，君子不乘人之危"
+            return "对方HP：0 对方濒死，君子不乘人之危\n"
         if(a.hp<=0):
-            return ""
+            return "我方HP：0 你就是个弟弟啊，不要去招惹他人\n"
         if(b.defensive()>=a.attack()):
-            return ""
+            return "对方DEF："+str(b.defensive())+" 我方ATK："+str(a.attack())+"\n"
         for i in range(3):
-
-            b.hp = b.hp-(a.attack()-b.defensive())
-        print("a atk b")
-
-if __name__ == '__main__':
-    p = Person("kgm")
-    print(p.showInfo())
+            self.oneRound(a,b,True)
+            if(b.hp<=0):
+                return self.result+a.name+" 战胜了 "+b.name+"\n"
+            self.oneRound(b,a,False)
+            if(a.hp<=0):
+                return self.result+b.name+" 战胜了 "+a.name+"\n"
+        return self.result
