@@ -54,10 +54,13 @@ class BattleService:
         return result
 
     def getCheckenBox(self,member):
+        if(ActionDao().selectCount(2,pa.userId)>1):
+            return "今天已经领过鸡盒了哦，暴食肥肥！！"
         p = self.getPerson(member)
         p.hp+=500
         if(p.hp>=p.maxhp):
             p.hp = p.maxhp
+        ActionDao().insert(2,p.userId)
         BattleDao().updateBattleInfo(p)
         return "欧尼酱领取了鸡盒 HP 恢复了500 点"
 
