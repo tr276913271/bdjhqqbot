@@ -17,7 +17,7 @@ class LikeMember:
 
     #查询群员是否在数据库里
     def likeMemberBe(self,content):
-        memberName = self.cutMember(content) + '%'
+        memberName = '%' + self.cutMember(content) + '%'
         if len(DBHelper().selectAll("select name from user where name like '"+memberName+"' ")) != 0:
             return True
         else:
