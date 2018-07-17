@@ -9,5 +9,5 @@ class MoliService:
             "api_secret":''
         }
         rs = requests.post('http://i.itpk.cn/api.php', data = moliDate)
-        rs = json.loads(rs)
-        return rs.text
+        rs = rs.text
+        return rs
