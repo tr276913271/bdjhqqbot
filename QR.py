@@ -11,6 +11,7 @@ from other_module.parents import ParentService
 from battle_module.battle_service import BattleService
 from remote_module.supervise import AdminSupervise
 from mock_bot import MockBot
+from moli_moudule.moli_service import MoliService
 
 
 def onQQMessage(bot, contact, member, content):
@@ -55,6 +56,9 @@ def onQQMessage(bot, contact, member, content):
     # 图灵API
     #else :
         #return bot.SendTo(contact, TuringService().service(content))
+    #茉莉API
+    else :
+        bot.SendTo(contact, MoliService().mlservice(content))
 
 if __name__ == '__main__':
      onQQMessage(MockBot(), "aa", "bb", "[@ME]..人物信息")

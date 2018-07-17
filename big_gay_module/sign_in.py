@@ -34,7 +34,7 @@ class SignInSystem:
         if DBTStr().UserCoinDateStr(member) != timeToday:
             #thisCoin = DBHelper().selectOne("select coin from user where name = '"+str(member)+"' ")
             #thisCoinStr = thisCoin[0].__str__()
-            coinIncrement = random.randint(1,10)
+            coinIncrement = random.randint(10,100)
             allCoin = int(DBTStr().userCoinStr(member)) + coinIncrement
             #thisCoin = int(thisCoinStr) + coinIncrement
             allCoin = str(allCoin)

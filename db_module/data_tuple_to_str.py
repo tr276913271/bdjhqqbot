@@ -29,7 +29,7 @@ class DBTStr:
         theftUserId = theftUserId[0].__str__()
         return theftUserId
     # 查询偷窃次数 注：这里是int型
-    def theftUserNum(self,member):
+    #def theftUserNum(self,member):
         
     # 查询被偷窃次数 注：这里是int型
         
