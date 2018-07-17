@@ -20,7 +20,7 @@ class BattleDao:
 
     def insertBattle(self,uid):
         p = Person(uid)
-        DBHelper().insert("insert into battle(`level`, `hp`, `experience`, `attack`, `defense`, `head`, `body`, `weapon`, `userId`,'maxhp','profession') VALUES (\
+        DBHelper().insert("insert into battle(`level`, `hp`, `experience`, `attack`, `defense`, `head`, `body`, `weapon`, `userId`,`maxhp`,`profession`) VALUES (\
             1,100, 0,"+str(p.attack())+","+str(p.defensive())+",1,3,2, '"+str(uid)+"',100,1)")
 
     def insertNewUser(self,member):
