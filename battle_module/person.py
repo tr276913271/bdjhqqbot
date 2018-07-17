@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 from battle_module import *
+from db_module.code_db import CodeDBService
 import json
 
 class Person:
@@ -9,8 +10,10 @@ class Person:
         self.head = None
         self.breast = None
         self.hp = 100
+        self.maxhp = 100
         self.level = 1
         self.exp = 1
+        self.profession = 1
         equipment_db.EquipmentDB.initPerson(self)
 
     def initWithDB(self,tuple):
@@ -20,6 +23,7 @@ class Person:
         self.hp = tuple[2]
         self.level = tuple[1]
         self.exp = tuple[3]
+        self.profession = CodeDBService.CodeDB['职业类型'][self.profession-1]
 
     def attack(self):
         return self.weapon.atk
@@ -32,8 +36,8 @@ class Person:
 
     def showInfo(self):
         info = "欧尼酱的人物信息如下哦：\n"
-        info += "ID："+self.name+"\n"
-        info += "HP："+str(self.hp)+"\n"
+        info += "ID："+self.name+" "+"MAXHP/HP："+str(self.maxhp)+"/"+str(self.hp)+"\n"
+        info += "职业："+str(self.profession.codeName)+"\n"
         info += "等级："+str(self.level)+"\n"
         info += "经验："+str(self.exp)+"\n"
         info += "攻击力："+str(self.attack())+"\n"

@@ -2,14 +2,16 @@ import random
 
 from battle_module import *
 from db_module.connect_db import *
+from db_module.code_db import *
 
 if __name__ == '__main__':
+    # print(CodeDBService.CodeDB['职业类型'])
     print(battle_service.BattleService().service("sssssss"))
-    p = person.Person("kgm")
-    print(p.showInfo())
-    print(DBHelper().selectOne("select * from user where id=1"))
-    for e in equipment_db.EquipmentDB.EDB:
-        print(equipment_db.EquipmentDB.EDB[e].showInfo())
+    # p = person.Person("kgm")
+    # print(p.showInfo())
+    # print(DBHelper().selectOne("select * from user where id=1"))
+    # for e in equipment_db.EquipmentDB.EDB:
+    #     print(equipment_db.EquipmentDB.EDB[e].showInfo())
 
 
 '''
