@@ -25,12 +25,16 @@ class BattleService:
                     dao.insertBattle(uid[0])
             return dao.selectUser(member).showInfo()
         if(content=='鸡盒'):
-            return self.getCheckenBox(member)
+            try:
+                return self.getCheckenBox(member)
+            except:
+                return "没有注册哦，@半姬 人物信息 注册"
         if(content.find('决斗@') >= 0):
             content = content.strip('决斗@')
-            print(LikeMember().likeMember(content))
-            print(member)
-            return self.battleService(member,LikeMember().likeMember(content))
+            try:
+                return self.battleService(member,LikeMember().likeMember(content))
+            except:
+                return "双方有人没有注册哦，@半姬 人物信息 注册"
 
 
     def battleService(self,a,b):
