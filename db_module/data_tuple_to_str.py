@@ -1,6 +1,6 @@
 #- * -coding: utf - 8 - * -
 from db_module.connect_db import DBHelper
-import pymysql
+import pymysql, time
 
 class DBTStr:
     # 查询用户名字，必须存在
@@ -28,8 +28,23 @@ class DBTStr:
         theftUserId = DBHelper().selectOne("select userid from theft where name = '"+str(member)+"' ")
         theftUserId = theftUserId[0].__str__()
         return theftUserId
-    # 查询偷窃次数 注：这里是int型
-    #def theftUserNum(self,member):
+    # 查询用户当天的偷窃次数 
+    def theftNum(self,member):
+        timeToday = time.strftime("%Y-%m-%d", time.localtime())
+        memberId = DBHelper().selectOne("select id from user where name = '"+member+"' ")
+        memberId = memberId[0].__str__()
+        theftNumber = DBHelper().selectOne("select count(*) from theft where userId = '"+memberId+"' and theftDate = '"+timeToday+"'")
+        theftNumber = theftNumber[0].__str__()
+        return theftNumber
+
+    #查询用户当天被偷窃的次数
+    def theBeFtNum(self,member):
+        timeToday = time.strftime("%Y-%m-%d", time.localtime())
+        memberId = DBHelper().selectOne("select id from user where name = '"+member+"' ")
+        memberId = memberId[0].__str__()
+        theBeftNumber = DBHelper().selectOne("select count(*) from theft where theftUserid = '"+memberId+"' and theftDate = '"+timeToday+"'")
+        theBeftNumber = theBeftNumber[0].__str__()
+        return theBeftNumber
         
-    # 查询被偷窃次数 注：这里是int型
+
         

@@ -24,7 +24,7 @@ class SignInSystem:
 
         #没有用户自动创建,这条代码不改了。不知道咋改，反正能用
         if len(DBHelper().selectAll("select name from user where name = '"+str(member)+"' ")) == 0:
-            DBHelper().insert("INSERT INTO `user` (`name`, `coin`, `coinDate`,`userTypr`) VALUES ('"+str(member)+"', 0, NULL, 1)")
+            DBHelper().insert("INSERT INTO `user` (`name`, `coin`, `coinDate`,`userType`) VALUES ('"+str(member)+"', 0, NULL, 1)")
 
         #用户签到变量声明
         timeToday = time.strftime("%Y-%m-%d", time.localtime())

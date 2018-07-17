@@ -12,6 +12,7 @@ from battle_module.battle_service import BattleService
 from remote_module.supervise import AdminSupervise
 from mock_bot import MockBot
 from moli_moudule.moli_service import MoliService
+from big_gay_module.thefting import TheSteal
 
 
 def onQQMessage(bot, contact, member, content):
@@ -50,6 +51,9 @@ def onQQMessage(bot, contact, member, content):
     # 大给币签到系统
     elif (SignInSystem().shouldService(content)):
         bot.SendTo(contact, SignInSystem().service(member.name,content))
+    #大给币偷窃系统
+    elif (TheSteal().stealing(content)):
+        bot.SendTo(contact, TheSteal().stealingFun(member.name, content))
     # 远程关闭
     elif (AdminSupervise().turnOff(content, member.name)):
         return 0
@@ -59,6 +63,8 @@ def onQQMessage(bot, contact, member, content):
     #茉莉API
     else :
         bot.SendTo(contact, MoliService().mlservice(content))
+        member = str(member)
+        bot.SendTo(contact, member)
 
 if __name__ == '__main__':
      onQQMessage(MockBot(), "aa", "bb", "[@ME]..人物信息")
