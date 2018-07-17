@@ -49,3 +49,9 @@ INSERT INTO `code` (`id`, `code`, `codeName`, `codeType`) VALUES ('12', '10', '�
 INSERT INTO `code` (`id`, `code`, `codeName`, `codeType`) VALUES ('13', '11', '死亡骑士', '职业类型');
 INSERT INTO `code` (`id`, `code`, `codeName`, `codeType`) VALUES ('14', '12', '猎人', '职业类型');
 INSERT INTO `code` (`id`, `code`, `codeName`, `codeType`) VALUES ('15', '13', '恶魔猎手', '职业类型');
+
+update equipment set attack = 250 where name="破旧的剑";
+update equipment set defense = 100 where name="新手头盔";
+update equipment set defense = 100 where name="新手胸甲";
+update equipment set attack = 300 where name="青铜剑";
+update battle set hp=1000 ,maxhp=1000 ;

@@ -2,6 +2,7 @@
 from battle_module import *
 from db_module.code_db import CodeDBService
 import json
+import random
 
 class Person:
     def __init__(self,name):
@@ -9,8 +10,8 @@ class Person:
         self.weapon = None
         self.head = None
         self.breast = None
-        self.hp = 100
-        self.maxhp = 100
+        self.hp = 1000
+        self.maxhp = 1000
         self.level = 1
         self.exp = 1
         self.profession = 1
@@ -23,6 +24,8 @@ class Person:
         self.hp = tuple[2]
         self.level = tuple[1]
         self.exp = tuple[3]
+        self.id = tuple[0]
+        self.maxhp = tuple[10]
         self.profession = CodeDBService.CodeDB['职业类型'][self.profession-1]
 
     def attack(self):
@@ -49,6 +52,22 @@ class Person:
 
     def obj_2_json(self):
         return json.dumps(self,default=lambda obj: obj.__dict__,ensure_ascii=False)
+
+    def battleWith(self,userId):
+        return BattleProcess.battleWith(self.id,userId)
+
+class BattleProcess:
+    def battleWith(a,b):
+        if(b.hp<=0):
+            return "对方濒死，君子不乘人之危"
+        if(a.hp<=0):
+            return ""
+        if(b.defensive()>=a.attack()):
+            return ""
+        for i in range(3):
+
+            b.hp = b.hp-(a.attack()-b.defensive())
+        print("a atk b")
 
 if __name__ == '__main__':
     p = Person("kgm")
