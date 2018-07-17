@@ -5,10 +5,12 @@ from db_module.like_member import LikeMember
 import math,random
 class BattleService:
     def shouldService(self,content):
+        print("LOG:content"+content)
         if(content=='人物信息'):
             return True
         if(content=='鸡盒'):
             return True
+        print("LOG:find决斗@"+str(content.find('决斗@')))
         if(content.find('决斗@') >= 0):
             return True
         return False
@@ -32,6 +34,7 @@ class BattleService:
         if(content.find('决斗@') >= 0):
             content = content.strip('决斗@')
             try:
+                print("LOG:likeMember@"+str(LikeMember().likeMember(content)))
                 return self.battleService(member,LikeMember().likeMember(content))
             except:
                 return "双方有人没有注册哦，@半姬 人物信息 注册"
