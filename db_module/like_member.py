@@ -10,7 +10,7 @@ class LikeMember:
 
     def likeMember(self, content):
         self.content = content
-        memberName = self.cutMember(self.content) + '%'
+        memberName = '%' + self.cutMember(self.content) + '%'
         memberName = DBHelper().selectOne(" select name from user where name like '"+memberName+"' ")
         memberName = memberName[0].__str__()
         return memberName
@@ -22,4 +22,3 @@ class LikeMember:
             return True
         else:
             return False
-

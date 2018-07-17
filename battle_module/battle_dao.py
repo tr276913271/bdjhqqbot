@@ -21,7 +21,7 @@ class BattleDao:
     def insertBattle(self,uid):
         p = Person(uid)
         DBHelper().insert("insert into battle(`level`, `hp`, `experience`, `attack`, `defense`, `head`, `body`, `weapon`, `userId`,`maxhp`,`profession`) VALUES (\
-            1,100, 0,"+str(p.attack())+","+str(p.defensive())+",1,3,2, '"+str(uid)+"',100,1)")
+            1,1000, 0,"+str(p.attack())+","+str(p.defensive())+",1,3,2, '"+str(uid)+"',1000,1)")
 
     def insertNewUser(self,member):
         db = DBHelper()
@@ -35,3 +35,6 @@ class BattleDao:
             p = Person(member)
             p.initWithDB(db.selectOne("select * from battle where userId="+str(uid[0])))
             return p
+    def updateBattleInfo(self,p):
+        db = DBHelper()
+        db.update("update battle set level="+str(p.level)+",hp="+str(p.hp)+",experience="+str(p.exp)+",maxhp="+str(p.maxhp)+" where userId="+str(p.userId))
