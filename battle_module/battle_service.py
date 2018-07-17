@@ -54,9 +54,9 @@ class BattleService:
         return result
 
     def getCheckenBox(self,member):
-        if(ActionDao().selectCount(2,pa.userId)>1):
-            return "今天已经领过鸡盒了哦，暴食肥肥！！"
         p = self.getPerson(member)
+        if(ActionDao().selectCount(2,p.userId)>1):
+            return "今天已经领过鸡盒了哦，暴食肥肥！！"
         p.hp+=500
         if(p.hp>=p.maxhp):
             p.hp = p.maxhp
