@@ -26,7 +26,7 @@ class Person:
         self.exp = tuple[3]
         self.userId = tuple[9]
         self.maxhp = tuple[10]
-        self.profession = CodeDBService.CodeDB['职业类型'][self.profession-1]
+        self.profession = CodeDBService.CodeDB['职业类型'][tuple[11]-1]
 
     def attack(self):
         return self.weapon.atk
@@ -53,30 +53,24 @@ class Person:
     def obj_2_json(self):
         return json.dumps(self,default=lambda obj: obj.__dict__,ensure_ascii=False)
 
-    def handAfterBattle(self,pa,pb):
-        result=""
-        aexp = 0
-        if(pb.hp<0):
-            pb.hp = 0
-            aexp += math.floor(40*round(1+random.uniform(-0.1,0.1),2))
-        aexp += math.floor(10*round(1+random.uniform(-0.1,0.1),2))
-        pa.exp += aexp
-        result += pa.name + " 获得"+str(aexp)+"点经验\n"
-        if(pa.exp/100 > pa.level):
-            result += pa.name + "升级了！！\n"
-            pa.level+=1
-            pa.exp-=100
-            pa.maxhp += 100
-        return result
 
     def battleWith(self,user):
-        result,flag = BattleProcess().battleWith(self,user)
+        process = BattleProcess()
+        flag = process.battleWith(self,user)
         if(flag):
-            result += self.handAfterBattle(self,user)
-            result += self.handAfterBattle(user,self)
-        return result,flag
+            process.handleAfterBattle(self,user)
+            process.handleAfterBattle(user,self)
+        return process.result,flag,process
 
 class BattleProcess:
+    def __init__(self):
+        self.aAttackCount = 0
+        self.bAttackCount = 0
+        self.aDamage = 0
+        self.bDamage = 0
+        self.bCritCount = 0
+        self.aCritCount = 0
+
     def damage(self,a,b):
         flag = False
         damage =  math.floor(a.attack()*round(1+random.uniform(-0.1,0.2),2))-b.defensive()
@@ -87,35 +81,63 @@ class BattleProcess:
 
     def oneRound(self,a,b,flag):
         damage, crit = self.damage(a,b)
-        b.hp = b.hp-damage
         if(flag):
             if(crit):
-                self.result += "我方暴击伤害:"+str(damage)+",对方当前HP:"+str(b.hp)
+                self.aCritCount += 1
             else:
-                self.result += "我方伤害:"+str(damage)+",对方当前HP:"+str(b.hp)
+                self.aAttackCount += 1
+            self.aDamage += damage
         else:
             if(crit):
-                self.result += "对方暴击伤害:"+str(damage)+",我方当前HP:"+str(b.hp)
+                self.bCritCount += 1
             else:
-                self.result += "对方伤害:"+str(damage)+",我方当前HP:"+str(b.hp)
+                self.bAttackCount += 1
+            self.bDamage += damage
+        return damage
+
+
+    def handleMessage(self,a,b):
+        self.result +="本次战斗："+ a.name +" 造成了:"+str(self.aDamage) +"点伤害 "+ " 普攻次数:"+str(self.aAttackCount)+" 暴击次数:"+str(self.aCritCount)+"\n"
+        self.result +="本次战斗："+ b.name +" 造成了:"+str(self.bDamage) +"点伤害 "+ " 普攻次数:"+str(self.bAttackCount)+" 暴击次数:"+str(self.bCritCount)+"\n"
 
     def battleWith(self,a,b):
         self.result = a.name + " HP:"+str(a.hp)+" ATK:"+str(a.attack())+" DEF:"+str(a.defensive())+" vs "
         self.result += b.name + " HP:"+str(b.hp)+" ATK:"+str(a.attack())+" DEF:"+str(b.defensive())+"\n"
         if(b.hp<=0):
-            return "对方HP：0 对方濒死，君子不乘人之危\n",False
+            self.result = "对方HP：0 对方濒死，君子不乘人之危\n"
+            return False
         if(a.hp<=0):
-            return "我方HP：0 你就是个弟弟啊，不要去招惹他人\n",False
+            self.result =  "我方HP：0 你就是个弟弟啊，不要去招惹他人\n"
+            return False
         if(b.defensive()>=a.attack()):
-            return "对方DEF："+str(b.defensive())+" 我方ATK："+str(a.attack())+"\n 你就是个弟弟啊，不要去招惹他人",False
+            self.result =  "对方DEF："+str(b.defensive())+" 我方ATK："+str(a.attack())+"\n 你就是个弟弟啊，不要去招惹他人"
+            return False
         for i in range(5):
-            self.result += "第"+str(i+1)+"轮："
-            self.oneRound(a,b,True)
+            b.hp -= self.oneRound(a,b,True)
             if(b.hp<=0):
-                return self.result+"\n"+a.name+" 战胜了 "+b.name+"\n",True
-            self.result += " "
-            self.oneRound(b,a,False)
+                self.handleMessage(a,b)
+                self.result += "\n"+a.name+" 战胜了 "+b.name+"\n"
+                return True
+            a.hp -= self.oneRound(b,a,False)
             if(a.hp<=0):
-                return self.result+"\n"+b.name+" 战胜了 "+a.name+"\n",True
-            self.result += "\n"
-        return self.result+"平手\n",True
+                self.handleMessage(a,b)
+                self.result += "\n"+b.name+" 战胜了 "+a.name+"\n"
+                return True
+
+        self.handleMessage(a,b)
+        self.result+="平手\n"
+        return True
+
+    def handleAfterBattle(self,pa,pb):
+        aexp = 0
+        if(pb.hp<0):
+            pb.hp = 0
+            aexp += math.floor(40*round(1+random.uniform(-0.1,0.1),2))
+        aexp += math.floor(10*round(1+random.uniform(-0.1,0.1),2))
+        pa.exp += aexp
+        self.result += pa.name + " 获得"+str(aexp)+"点经验\n"
+        if(pa.exp/100 > pa.level):
+            self.result += pa.name + "升级了！！\n"
+            pa.level+=1
+            pa.maxhp += 100
+            pa.hp += 200

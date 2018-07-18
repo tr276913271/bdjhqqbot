@@ -19,9 +19,13 @@ class BattleDao:
         return uid
 
     def insertBattle(self,uid):
+        dao = DBHelper()
         p = Person(uid)
-        DBHelper().insert("insert into battle(`level`, `hp`, `experience`, `attack`, `defense`, `head`, `body`, `weapon`, `userId`,`maxhp`,`profession`) VALUES (\
+        dao.insert("insert into battle(`level`, `hp`, `experience`, `attack`, `defense`, `head`, `body`, `weapon`, `userId`,`maxhp`,`profession`) VALUES (\
             1,1000, 0,"+str(p.attack())+","+str(p.defensive())+",1,3,2, '"+str(uid)+"',1000,1)")
+        dao.insert("insert into package(`userId`, `equipId`) VALUES ("+str(uid)+",1)")
+        dao.insert("insert into package(`userId`, `equipId`) VALUES ("+str(uid)+",2)")
+        dao.insert("insert into package(`userId`, `equipId`) VALUES ("+str(uid)+",3)")
 
     def insertNewUser(self,member):
         db = DBHelper()
@@ -35,6 +39,19 @@ class BattleDao:
             p = Person(member)
             p.initWithDB(db.selectOne("select * from battle where userId="+str(uid[0])))
             return p
+
+    def selectUserByUserId(self,userId):
+        db = DBHelper()
+        p = Person(self.selectUserName(userId))
+        p.initWithDB(db.selectOne("select * from battle where userId="+str(userId)))
+        return p
+
+    def updateCoin(self,coin,userId):
+        DBHelper().update("update user set `coin` = `coin`+"+str(coin)+" where id = "+str(userId))
+
+    def selectUserName(self,userId):
+        name = DBHelper().selectOne("select name from user where id="+str(userId))
+        return name[0]
     def updateBattleInfo(self,p):
         db = DBHelper()
         db.update("update battle set level="+str(p.level)+",hp="+str(p.hp)+",experience="+str(p.exp)+",maxhp="+str(p.maxhp)+" where userId="+str(p.userId))
