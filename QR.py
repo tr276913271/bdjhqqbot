@@ -62,9 +62,10 @@ def onQQMessage(bot, contact, member, content):
         #return bot.SendTo(contact, TuringService().service(content))
     #茉莉API
     else :
-        bot.SendTo(contact, MoliService().mlservice(content))
-        #member = str(member)
-        #bot.SendTo(contact, member)
+        if member.name == '纯天然超污染':
+            return 0
+        else:
+            bot.SendTo(contact, MoliService().mlservice(content))
 
 if __name__ == '__main__':
      onQQMessage(MockBot(), "aa", "bb", "[@ME]..人物信息")
