@@ -53,12 +53,16 @@ class DBTStr:
             menstr = '没有欧尼酱要找的这个串哦'
             return menstr
         else:
-            menstrRes = DBHelper().selectOne("select returnWord from response where keyWord like '"+content+"'")
-            menstrRes = menstrRes[0].__str__()
-            menstrKey = DBHelper().selectOne("select keyWord from response where keyWord like '"+content+"' ")
-            menstrKey = menstrKey[0].__str__()
-            menstr = menstrKey + '：' + menstrRes
-            return menstr
+            #menstrRes = DBHelper().selectOne("select returnWord from response where keyWord like '"+content+"'")
+            #menstrRes = menstrRes[0].__str__()
+            #menstrKey = DBHelper().selectOne("select keyWord from response where keyWord like '"+content+"' ")
+            #menstrKey = menstrKey[0].__str__()
+            #menstr = menstrKey + '：' + menstrRes
+            menstr = DBHelper().selectAll("select keyWord,returnWord from response where keyWord like '"+content+"' ")
+            result = ""
+            for t in menstr:
+                result += t[0]+":"+t[1]+"\n"
+            return result
 
     #常用串查询 列表
     def thePostAll(self, page):
