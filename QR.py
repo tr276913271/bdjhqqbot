@@ -62,8 +62,8 @@ def onQQMessage(bot, contact, member, content):
         #return bot.SendTo(contact, TuringService().service(content))
     #茉莉API
     else :
-        bot.SendTo(contact, MoliService().mlservice(content))
-        member = str(member)
+        #bot.SendTo(contact, MoliService().mlservice(content))
+        #member = str(member)
         bot.SendTo(contact, member)
 
 if __name__ == '__main__':

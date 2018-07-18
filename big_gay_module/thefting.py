@@ -16,7 +16,7 @@ class TheSteal:
         self.member1 = member
         content = content.strip('偷窃@')
         self.member2 = content.strip('')
-        self.member2 = LikeMember().likeMember(self.member2)
+        #self.member2 = LikeMember().likeMember(self.member2)
         #判断两方是否存在
         if LikeMember().likeMemberBe(self.member1) == False:
             self.menstr = self.member1 + '欧尼酱你还没有领取过大给币哦~请先领取了才能偷别人的！'
@@ -25,6 +25,7 @@ class TheSteal:
             self.menstr = self.member1 + '欧尼酱你偷取的对象没有领取过大给币哦~'
             return self.menstr
         else:
+            self.member2 = LikeMember().likeMember(self.member2)
             # 查询次数member1当天的偷取的次数
             if int( DBTStr().theftNum(self.member1)) < 3:
                 # 查询member2当天被偷窃的次数
