@@ -11,7 +11,7 @@ class TheftSystem:
         self.userCoin = DBTStr().userCoinStr(self.member2)
         
         self.userCoin = int(self.userCoin)
-        if random.random() < 0.3:
+        if random.random() < 0.5:
             timeToday = time.strftime("%Y-%m-%d", time.localtime())
             member1userid = DBTStr().userIdStr(self.member1)
             member2userid = DBTStr().userIdStr(self.member2)
@@ -25,15 +25,18 @@ class TheftSystem:
             minusCoin = round(self.allCoin / 20)
             self.allCoin = self.allCoin - minusCoin
             DBHelper().update("update user set `coin`= '"+str(self.allCoin)+"' where name = '"+self.member2+"' ")
+            self.allCoin1 = int(DBTStr().userCoinStr(self.member1))
+            self.allCoin1 = self.allCoin1 + minusCoin
+            DBHelper().update("update user set `coin`= '"+str(self.allCoin1)+"' where name = '"+self.member1+"'")
+
+
+
+
+
+
             timeToday = time.strftime("%Y-%m-%d", time.localtime())
             member1userid = DBTStr().userIdStr(self.member1)
             member2userid = DBTStr().userIdStr(self.member2)
             DBHelper().insert("INSERT INTO `theft` (`userId`, `coin`, `theftDate`, `theftUserid`) VALUES ('"+str(member1userid)+"', '"+str(minusCoin)+"', '"+str(timeToday)+"' ,'"+str(member2userid)+"')")
             self.menstr = str(self.member1) + '欧尼酱成功从' + str(self.member2) + '欧尼酱那里偷取了' + str(minusCoin) + '个大给币( •̀ ω •́ )y'
         return self.menstr 
-
-            
-
-
-
-    
