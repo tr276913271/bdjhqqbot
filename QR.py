@@ -13,6 +13,7 @@ from remote_module.supervise import AdminSupervise
 from mock_bot import MockBot
 from moli_moudule.moli_service import MoliService
 from big_gay_module.thefting import TheSteal
+from Island_module.guide_post import GuidePost
 
 
 def onQQMessage(bot, contact, member, content):
@@ -57,6 +58,9 @@ def onQQMessage(bot, contact, member, content):
     # 远程关闭
     elif (AdminSupervise().turnOff(content, member.name)):
         return 0
+    # A岛常用串
+    elif GuidePost().commonPostIf(content):
+        bot.SendTo(contact, GuidePost().commonPostIfFun(content))
     # 图灵API
     #else :
         #return bot.SendTo(contact, TuringService().service(content))

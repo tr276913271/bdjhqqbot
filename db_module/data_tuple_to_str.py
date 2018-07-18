@@ -45,6 +45,27 @@ class DBTStr:
         theBeftNumber = DBHelper().selectOne("select count(*) from theft where theftUserid = '"+memberId+"' and theftDate = '"+timeToday+"'")
         theBeftNumber = theBeftNumber[0].__str__()
         return theBeftNumber
-        
+    
+    #常用串查询单个 模糊搜索
+    def thePostOne(self,content):
+        content = '%'+ content +'%'
+        if len(DBHelper().selectAll("select returnWord from response where keyWord like '"+content+"' ")) == 0:
+            menstr = '没有欧尼酱要找的这个串哦'
+            return menstr
+        else:
+            menstrRes = DBHelper().selectOne("select returnWord from response where keyWord like '"+content+"'")
+            menstrRes = menstrRes[0].__str__()
+            menstrKey = DBHelper().selectOne("select keyWord from response where keyWord like '"+content+"' ")
+            menstrKey = menstrKey[0].__str__()
+            menstr = menstrKey + '：' + menstrRes
+            return menstr
+
+    
+    
+    
+    #常用串查询 列表
+
+
+
 
         
