@@ -60,12 +60,12 @@ class DBTStr:
             menstr = menstrKey + '：' + menstrRes
             return menstr
 
-    
-    
-    
     #常用串查询 列表
-
-
-
+    def thePostAll(self):
+        menstr = DBHelper().selectAll("select keyWord,returnWord from response where responseType = '9' limit 0,5")
+        result = ""
+        for t in menstr:
+            result += t[0]+":"+t[1]+"\n"
+        return result
 
         

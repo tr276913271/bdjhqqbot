@@ -22,7 +22,7 @@ class GuidePost:
             menstr = self.commonPostOne(content)
             return menstr
         elif content.find('常用串') >= 0:
-            menstr = '功能未添加'
+            menstr = DBTStr().thePostAll()
             return menstr
         else:
             menstr = '使用正确格式就能查找常用串咯哦~'
