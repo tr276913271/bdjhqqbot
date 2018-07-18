@@ -16,7 +16,7 @@ class TheSteal:
         self.member1 = member
         content = content.strip('偷窃@')
         self.member2 = content.strip('')
-        self.member2 = LikeMember().cutMember(self.member2)
+        self.member2 = LikeMember().likeMember(self.member2)
         #判断两方是否存在
         if LikeMember().likeMemberBe(self.member1) == False:
             self.menstr = self.member1 + '欧尼酱你还没有领取过大给币哦~请先领取了才能偷别人的！'
