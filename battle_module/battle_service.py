@@ -37,6 +37,8 @@ class BattleService:
         if(content.find('决斗@') >= 0):
             content = content.strip('决斗@')
             self.register(member)
+            if(LikeMember().likeMemberBe(content)==False):
+                self.register(content)
             b = LikeMember().likeMember(content)
             self.register(b)
             return self.battleService(member,b)
