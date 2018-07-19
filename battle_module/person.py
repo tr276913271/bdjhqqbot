@@ -112,7 +112,7 @@ class BattleProcess:
         if(b.defensive()>=a.attack()):
             self.result =  "对方DEF："+str(b.defensive())+" 我方ATK："+str(a.attack())+"\n 你就是个弟弟啊，不要去招惹他人"
             return False
-        for i in range(5):
+        for i in range(20):
             b.hp -= self.oneRound(a,b,True)
             if(b.hp<=0):
                 self.handleMessage(a,b)

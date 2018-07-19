@@ -68,9 +68,9 @@ class BattleService:
         dao = BattleDao()
         pa = dao.selectUser(a)
         pb = dao.selectUser(b)
-        if(ActionDao().selectCount(1,pa.userId)>30):
+        if(ActionDao().selectCount(1,pa.userId)>10):
             return "今天已经超过决斗次数了哦，休息下吧"
-        if(ActionDao().selectCount(1,pb.userId)>30):
+        if(ActionDao().selectCount(1,pb.userId)>10):
             return "他今天已经超过决斗次数了哦，让他休息下吧"
         result,flag,process = pa.battleWith(pb)
         dao.updateBattleInfo(pa)
