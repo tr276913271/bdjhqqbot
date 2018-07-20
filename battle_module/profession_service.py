@@ -29,6 +29,8 @@ class ProfessionService:
         for p in CodeDBService.CodeDB['职业类型']:
             if(p.code==1):
                 continue
+            if(p.code==16):
+                continue
             self.result += p.codeName+"\n"
         return self.result
 
