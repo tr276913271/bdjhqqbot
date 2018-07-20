@@ -20,6 +20,7 @@ class ProfessionService:
             return self.showProfessionList()
         elif(content.find('转职') >= 0):
             content = content.strip('转职')
+            BattleService().register(member)
             self.changeProfession(member,content)
             return self.result
         return self.result
@@ -38,6 +39,9 @@ class ProfessionService:
             return False
 
         for prf in CodeDBService.CodeDB['职业类型']:
+            if(prf.codeName=="世界BOSS"):
+                self.result = "转职失败"
+                return False
             if(prf.codeName==content):
                 if(persion.profession.code==1):
                     DBHelper().update("update battle set profession = "+str(prf.code)+",maxhp=maxhp+500,hp=maxhp where userId="+str(persion.userId))
