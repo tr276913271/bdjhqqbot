@@ -32,9 +32,6 @@ class BossService:
                 two.append(tupleList[i][0])
             else:
                 three.append(tupleList[i][0])
-        print (one)
-        print (two)
-        print (three)
         self.handleExpMoney(one,3)
         self.handleExpMoney(two,2)
         self.handleExpMoney(three,1)
