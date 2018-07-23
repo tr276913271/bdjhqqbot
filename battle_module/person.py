@@ -104,10 +104,10 @@ class BattleProcess:
         self.result = a.name + " HP:"+str(a.hp)+" ATK:"+str(a.attack())+" DEF:"+str(a.defensive())+" vs "
         self.result += b.name + " HP:"+str(b.hp)+" ATK:"+str(a.attack())+" DEF:"+str(b.defensive())+"\n"
         if(b.hp<=0):
-            self.result = "对方HP：0 对方濒死，君子不乘人之危\n"
+            self.result = "对方HP：0 对方濒死，趁热……快……趁热\n"
             return False
         if(a.hp<=0):
-            self.result =  "我方HP：0 你就是个弟弟啊，不要去招惹他人\n"
+            self.result =  "我方HP：0 我方濒死，难道你想被趁热吗……\n"
             return False
         if(b.defensive()>=a.attack()):
             self.result =  "对方DEF："+str(b.defensive())+" 我方ATK："+str(a.attack())+"\n 你就是个弟弟啊，不要去招惹他人"

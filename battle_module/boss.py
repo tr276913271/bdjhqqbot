@@ -32,9 +32,12 @@ class BossService:
                 two.append(tupleList[i][0])
             else:
                 three.append(tupleList[i][0])
-        self.handleExpMoney(one,1)
+        print (one)
+        print (two)
+        print (three)
+        self.handleExpMoney(one,3)
         self.handleExpMoney(two,2)
-        self.handleExpMoney(three,3)
+        self.handleExpMoney(three,1)
         self.result+="\n"
         self.bootyPackage(tupleList,boss.userId)
 

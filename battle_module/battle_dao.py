@@ -49,6 +49,9 @@ class BattleDao:
     def updateCoin(self,coin,userId):
         DBHelper().update("update user set `coin` = `coin`+"+str(coin)+" where id = "+str(userId))
 
+    def selectCoin(self,userId):
+        return DBHelper().selectOne("select `coin` from user where id = "+str(userId))
+
     def selectUserName(self,userId):
         name = DBHelper().selectOne("select name from user where id="+str(userId))
         return name[0]

@@ -14,6 +14,10 @@ class BattleService:
             return True
         if(content=='挑战'):
             return True
+        if(content=='买药'):
+            return True
+        if(content.find('喂饼@') >= 0):
+            return True
         if(content=='世界首领'):
             return True
         if(content.find('决斗@') >= 0):
@@ -36,12 +40,38 @@ class BattleService:
             return self.getPerson('牙医的暗面').showInfo()
         if(content.find('决斗@') >= 0):
             content = content.strip('决斗@')
-            self.register(member)
-            if(LikeMember().likeMemberBe(content)==False):
-                self.register(content)
-            b = LikeMember().likeMember(content)
-            self.register(b)
+            self.registerB(member,content)
             return self.battleService(member,b)
+        if(content=='买药'):
+            self.register(member)
+            return self.buyMedicine(member)
+        if(content.find('喂饼@') >= 0):
+            content = content.strip('喂饼@')
+            self.registerB(member,content)
+            return self.eatMedicine(member,content)
+
+    def eatMedicine(self,a,b):
+        pa = self.getPerson(a)
+        pb = self.getPerson(b)
+        dao = BattleDao()
+        coin = dao.selectCoin(pa.userId)
+        if(coin[0]<20):
+            return "20大给币才能喂饼哦"
+        pb.hp = pb.maxhp
+        dao.updateBattleInfo(pb)
+        dao.updateCoin(-20,pa.userId)
+        return str(pb.name)+"血量已经恢复了哦"
+
+    def buyMedicine(self,member):
+        p = self.getPerson(member)
+        dao = BattleDao()
+        coin = dao.selectCoin(p.userId)
+        if(coin[0] < 20):
+            return "20大给币一瓶药哦"
+        p.hp = p.maxhp
+        dao.updateBattleInfo(p)
+        dao.updateCoin(-20,p.userId)
+        return str(member)+"血量已经恢复了哦"
 
     def challenge(self,member):
         dao = BattleDao()
@@ -54,7 +84,12 @@ class BattleService:
             result += BossService().handleAfterChallange(process,a,boss)
         return result
 
-
+    def registerB(self,member,content):
+        self.register(member)
+        if(LikeMember().likeMemberBe(content)==False):
+            self.register(content)
+        b = LikeMember().likeMember(content)
+        self.register(b)
 
     def register(self,member):
         dao = BattleDao()
