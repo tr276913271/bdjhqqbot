@@ -41,7 +41,7 @@ class BattleService:
         if(content.find('决斗@') >= 0):
             content = content.strip('决斗@')
             self.registerB(member,content)
-            return self.battleService(member,b)
+            return self.battleService(member,content)
         if(content=='买药'):
             self.register(member)
             return self.buyMedicine(member)
