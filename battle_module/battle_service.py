@@ -40,14 +40,14 @@ class BattleService:
             return self.getPerson('牙医的暗面').showInfo()
         if(content.find('决斗@') >= 0):
             content = content.strip('决斗@')
-            self.registerB(member,content)
+            content = self.registerB(member,content)
             return self.battleService(member,content)
         if(content=='买药'):
             self.register(member)
             return self.buyMedicine(member)
         if(content.find('喂饼@') >= 0):
             content = content.strip('喂饼@')
-            self.registerB(member,content)
+            content = self.registerB(member,content)
             return self.eatMedicine(member,content)
 
     def eatMedicine(self,a,b):
@@ -90,6 +90,7 @@ class BattleService:
             self.register(content)
         b = LikeMember().likeMember(content)
         self.register(b)
+        return b
 
     def register(self,member):
         dao = BattleDao()
@@ -105,6 +106,8 @@ class BattleService:
         dao = BattleDao()
         pa = dao.selectUser(a)
         pb = dao.selectUser(b)
+        if(pa.userId==pb.userId):
+            return "自己打自己，你怎么不上天"
         if(ActionDao().selectCount(1,pa.userId)>10):
             return "今天已经超过决斗次数了哦，休息下吧"
         if(ActionDao().selectCount(1,pb.userId)>10):
