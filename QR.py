@@ -57,9 +57,10 @@ def onQQMessage(bot, contact, member, content):
     #大给币偷窃系统
     elif (TheSteal().stealing(content)):
         bot.SendTo(contact, TheSteal().stealingFun(member.name, content))
-    # 远程关闭
-    elif (AdminSupervise().turnOff(content, member.name)):
-        return 0
+    # 远程
+    elif AdminSupervise().administrator(member.name):
+        bot.SendTo(contact,AdminSupervise().remoteAdminService(content))
+
     # A岛常用串
     elif GuidePost().commonPostIf(content):
         bot.SendTo(contact, GuidePost().commonPostIfFun(content))
