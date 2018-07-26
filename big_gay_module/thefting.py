@@ -24,6 +24,9 @@ class TheSteal:
         elif LikeMember().likeMemberBe(self.member2) == False:
             self.menstr = self.member1 + '欧尼酱你偷取的对象没有领取过大给币哦~'
             return self.menstr
+        elif (LikeMember().likeMember(self.member2) == LikeMember().likeMember(self.member1)):
+            self.menstr = '自己偷自己还行，咋不自己吃自己(╬ﾟдﾟ)'
+            return self.menstr
         else:
             self.member2 = LikeMember().likeMember(self.member2)
             # 查询次数member1当天的偷取的次数
