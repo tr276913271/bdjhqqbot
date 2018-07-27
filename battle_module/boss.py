@@ -10,6 +10,16 @@ class BossService:
     def __init__(self):
         self.result=""
 
+    def initBoss(self):
+        dao = BattleDao()
+        boss = dao.selectActiveBoss()
+        if(boss==None):
+            return "boss不存在"
+        DBHelper().delete("delete from dps")
+        boss.hp = boss.maxhp
+        dao.updateBattleInfo(boss)
+        return "world boss init success "
+
     def handleAfterChallange(self,process,a,boss):
         self.insertDps(process,a,boss)
         if(boss.hp<=0):

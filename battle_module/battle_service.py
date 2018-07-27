@@ -22,6 +22,8 @@ class BattleService:
             return True
         if(content.find('决斗@') >= 0):
             return True
+        if(content=='首领初始化'):
+            return True
         return False
 
     def service(self,member,content):
@@ -37,7 +39,7 @@ class BattleService:
             return self.challenge(member)
         if(content=='世界首领'):
             self.register(member)
-            return self.getPerson('牙医的暗面').showInfo()
+            return BattleDao().selectActiveBoss().showInfo()
         if(content.find('决斗@') >= 0):
             content = content.strip('决斗@')
             content = self.registerB(member,content)
@@ -49,6 +51,8 @@ class BattleService:
             content = content.strip('喂饼@')
             content = self.registerB(member,content)
             return self.eatMedicine(member,content)
+        if(content=='首领初始化'):
+            return BossService().initBoss()
 
     def eatMedicine(self,a,b):
         pa = self.getPerson(a)
@@ -75,7 +79,7 @@ class BattleService:
 
     def challenge(self,member):
         dao = BattleDao()
-        boss = dao.selectUser("牙医的暗面")
+        boss = dao.selectActiveBoss()
         a = dao.selectUser(member)
         result,flag,process = a.battleWith(boss)
         dao.updateBattleInfo(a)

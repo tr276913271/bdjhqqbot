@@ -2,6 +2,12 @@
 from db_module.connect_db import DBHelper
 from battle_module.person import Person
 class BattleDao:
+
+    def selectActiveBoss(self):
+        bossId =  DBHelper().selectOne("select activeBossId from activeboss limit 0,1")
+        boss = self.selectUserByUserId(bossId[0])
+        return boss
+
     def isNewUser(self,member):
         result = DBHelper().selectOne("select * from user where name='"+str(member)+"'")
         if(result==None):

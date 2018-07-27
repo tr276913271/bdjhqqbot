@@ -28,6 +28,17 @@ class Person:
         self.maxhp = tuple[10]
         self.profession = CodeDBService.CodeDB['职业类型'][tuple[11]-1]
 
+    def initBasicWithDB(self,tuple):
+        self.weapon = tuple[8]
+        self.head = tuple[6]
+        self.breast = tuple[7]
+        self.hp = tuple[2]
+        self.level = tuple[1]
+        self.exp = tuple[3]
+        self.userId = tuple[9]
+        self.maxhp = tuple[10]
+        self.profession = tuple[11]
+        
     def attack(self):
         return self.weapon.atk
 

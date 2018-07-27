@@ -15,6 +15,7 @@ from moli_moudule.moli_service import MoliService
 from big_gay_module.thefting import TheSteal
 from Island_module.guide_post import GuidePost
 from battle_module.profession_service import ProfessionService
+from battle_module.weapon_service import WeaponService
 
 def onQQMessage(bot, contact, member, content):
     if content[: 5: ] != '[@ME]':
@@ -26,8 +27,12 @@ def onQQMessage(bot, contact, member, content):
     ## 如果是敏感词
     if (BattleService().shouldService(content)):
         return bot.SendTo(contact, BattleService().service(member.name,content))
+    # 转职
     elif (ProfessionService().shouldService(content)):
         bot.SendTo(contact,ProfessionService().service(member.name,content))
+    # 装备
+    elif (WeaponService().shouldService(content)):
+        bot.SendTo(contact,WeaponService().service(member.name,content))
     ## 公告功能
     elif (BBS().shouldService(content)):
         bot.SendTo(contact, BBS().service(content))
@@ -75,4 +80,4 @@ def onQQMessage(bot, contact, member, content):
             bot.SendTo(contact, MoliService().mlservice(content))
 
 if __name__ == '__main__':
-     onQQMessage(MockBot(), "aa", "bb", "[@ME]..转职信息")
+     onQQMessage(MockBot(), "真红", "bb", "[@ME]..购买11")
