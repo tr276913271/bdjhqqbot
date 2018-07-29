@@ -123,7 +123,7 @@ class BattleProcess:
         if(b.defensive()>=a.attack()):
             self.result =  "对方DEF："+str(b.defensive())+" 我方ATK："+str(a.attack())+"\n 你就是个弟弟啊，不要去招惹他人"
             return False
-        for i in range(20):
+        for i in range(30):
             b.hp -= self.oneRound(a,b,True)
             if(b.hp<=0):
                 self.handleMessage(a,b)
@@ -143,12 +143,19 @@ class BattleProcess:
         aexp = 0
         if(pb.hp<0):
             pb.hp = 0
-            aexp += math.floor(40*round(1+random.uniform(-0.1,0.1),2))
+            factor = pb.level/pa.level
+            if(factor>5):
+                factor = 5
+            elif(factor<0):
+                factor = 0
+            aexp += math.floor(40*round(1+random.uniform(-0.1,0.1),2)*(factor))
         aexp += math.floor(10*round(1+random.uniform(-0.1,0.1),2))
         pa.exp += aexp
         self.result += pa.name + " 获得"+str(aexp)+"点经验\n"
-        if(pa.exp/100 > pa.level):
+        while(pa.exp/100 > pa.level):
             self.result += pa.name + "升级了！！\n"
             pa.level+=1
             pa.maxhp += 100
-            pa.hp += 200
+            pa.hp += 1000
+            if(pa.hp>=pa.maxhp):
+                pa.hp = pa.maxhp
