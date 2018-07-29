@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+import math
 
 class Equipment:
     def __init__(self,tuple):
@@ -24,3 +25,10 @@ class Equipment:
         result += "描述："+self.desc+'\n'
         result += '=================\n'
         return result
+
+    def showPackageInfo(self):
+        result = "ID:"+str(self.id) +" "+ self.name +" 卖价："+str(self.sellPrice())+" \n"
+        return result
+
+    def sellPrice(self):
+        return math.floor(self.price/3)

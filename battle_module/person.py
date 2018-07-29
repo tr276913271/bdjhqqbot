@@ -38,7 +38,7 @@ class Person:
         self.userId = tuple[9]
         self.maxhp = tuple[10]
         self.profession = tuple[11]
-        
+
     def attack(self):
         return self.weapon.atk
 
@@ -113,7 +113,7 @@ class BattleProcess:
 
     def battleWith(self,a,b):
         self.result = a.name + " HP:"+str(a.hp)+" ATK:"+str(a.attack())+" DEF:"+str(a.defensive())+" vs "
-        self.result += b.name + " HP:"+str(b.hp)+" ATK:"+str(a.attack())+" DEF:"+str(b.defensive())+"\n"
+        self.result += b.name + " HP:"+str(b.hp)+" ATK:"+str(b.attack())+" DEF:"+str(b.defensive())+"\n"
         if(b.hp<=0):
             self.result = "对方HP：0 对方濒死，趁热……快……趁热\n"
             return False
