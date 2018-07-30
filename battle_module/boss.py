@@ -49,7 +49,8 @@ class BossService:
         self.bootyPackage(tupleList,boss.userId)
 
     def bootyPackage(self,tupleList,bossId):
-        bootys = PackageDao().select(bossId)
+        dao = PackageDao()
+        bootys = dao.select(bossId)
         for b in bootys:
             temp = {}
             for record in tupleList:
@@ -60,6 +61,7 @@ class BossService:
                     rd['ID'] = record[0]
                     rd['NUM'] = temp[record[0]]
             self.result += str(BattleDao().selectUserByUserId(rd["ID"]).name)+" 获得了"+str(EquipmentDB.EDB[b[2]].name)+"\n"
+            dao.insert(rd["ID"],b[2])
         return self.result
 
     def handleExpMoney(self,list,level):

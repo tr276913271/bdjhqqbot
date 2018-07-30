@@ -113,9 +113,9 @@ class BattleService:
         if(pa.userId==pb.userId):
             return "自己打自己，你怎么不上天"
         if(ActionDao().selectCount(1,pa.userId)>10):
-            return "今天已经超过决斗次数了哦，休息下吧"
+            return "今天已经超过决斗次数了哦，去[挑战]世界首领吧"
         if(ActionDao().selectCount(1,pb.userId)>10):
-            return "他今天已经超过决斗次数了哦，让他休息下吧"
+            return "他今天已经超过决斗次数了哦，去[挑战]世界首领吧"
         result,flag,process = pa.battleWith(pb)
         dao.updateBattleInfo(pa)
         dao.updateBattleInfo(pb)

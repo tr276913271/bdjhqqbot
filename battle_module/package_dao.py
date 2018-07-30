@@ -12,3 +12,6 @@ class PackageDao:
         return result
     def sellByUserIdAndEquipId(self,userId,equipId):
         DBHelper().delete("delete from package where userId="+str(userId)+" and equipId="+str(equipId))
+        
+    def insert(self,userId,equipId):
+        DBHelper().delete("insert into package(`userId`, `equipId`) VALUES ("+str(userId)+","+str(equipId)+")")

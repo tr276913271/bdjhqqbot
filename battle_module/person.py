@@ -24,6 +24,8 @@ class Person:
         self.hp = tuple[2]
         self.level = tuple[1]
         self.exp = tuple[3]
+        self.atk = tuple[4]
+        self.defense = tuple[5]
         self.userId = tuple[9]
         self.maxhp = tuple[10]
         self.profession = CodeDBService.CodeDB['职业类型'][tuple[11]-1]
@@ -35,15 +37,17 @@ class Person:
         self.hp = tuple[2]
         self.level = tuple[1]
         self.exp = tuple[3]
+        self.atk = tuple[4]
+        self.defense = tuple[5]
         self.userId = tuple[9]
         self.maxhp = tuple[10]
         self.profession = tuple[11]
 
     def attack(self):
-        return self.weapon.atk
+        return self.weapon.atk+self.atk
 
     def defensive(self):
-        return self.head.defs+self.breast.defs
+        return self.head.defs+self.breast.defs+self.defense
 
     def level(self):
         return self.level
@@ -54,6 +58,7 @@ class Person:
         info += "职业："+str(self.profession.codeName)+"\n"
         info += "等级："+str(self.level)+"\n"
         info += "经验："+str(self.exp)+"\n"
+        info += "力量："+str(self.atk)+"  敏捷："+str(self.defense)+"\n"
         info += "攻击力："+str(self.attack())+"\n"
         info += "防御力："+str(self.defensive())+"\n"
         info += "头部："+self.head.showInfo()+"\n"
@@ -71,6 +76,8 @@ class Person:
         if(flag):
             process.handleAfterBattle(self,user)
             process.handleAfterBattle(user,self)
+        #破釜沉舟
+        process.deathBattle(self,user)
         return process.result,flag,process
 
 class BattleProcess:
@@ -82,9 +89,9 @@ class BattleProcess:
         self.bCritCount = 0
         self.aCritCount = 0
 
-    def damage(self,a,b):
+    def damage(self,a,b,times=1):
         flag = False
-        damage =  math.floor(a.attack()*round(1+random.uniform(-0.1,0.2),2))-b.defensive()
+        damage =  math.floor(a.attack()*times*round(1+random.uniform(-0.1,0.2),2))-b.defensive()
         if(random.randint(1,10)<=2):
             damage = 2*damage
             flag = True
@@ -138,6 +145,20 @@ class BattleProcess:
         self.handleMessage(a,b)
         self.result+="平手\n"
         return True
+
+    def deathBattle(self,a,b):
+        if(random.randint(0,100)>30):
+            return ""
+        a.hp = a.maxhp/3
+        for i in range(30):
+            b.hp -= self.damage(a,b,2)
+            if(b.hp<=0):
+                return b.name + ""
+            a.hp -= self.damage(b,a)
+            if(a.hp<=0):
+                return ""
+        return ""
+        # self.result += pb.name +" 发动了破釜沉舟！"
 
     def handleAfterBattle(self,pa,pb):
         aexp = 0
