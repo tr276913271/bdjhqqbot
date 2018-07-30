@@ -16,6 +16,7 @@ from big_gay_module.thefting import TheSteal
 from Island_module.guide_post import GuidePost
 from battle_module.profession_service import ProfessionService
 from battle_module.weapon_service import WeaponService
+from other_module.instructions import InstructionsIntroduce
 
 def onQQMessage(bot, contact, member, content):
     if content[: 5: ] != '[@ME]':
@@ -72,6 +73,9 @@ def onQQMessage(bot, contact, member, content):
     # 图灵API
     #else :
         #return bot.SendTo(contact, TuringService().service(content))
+    # 指令查询
+    elif InstructionsIntroduce().instructionsIf(content):
+        bot.SendTo(contact,InstructionsIntroduce().orderIntroduce())
     #茉莉API
     else :
         if member.name == '纯天然超污染':
