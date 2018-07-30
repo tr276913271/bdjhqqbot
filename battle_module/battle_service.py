@@ -4,6 +4,8 @@ from db_module.action_dao import ActionDao
 from db_module.like_member import LikeMember
 import math,random
 from battle_module.boss import BossService
+from battle_module.weapon_service import *
+from battle_module.monster import MonsterServie
 
 class BattleService:
     def shouldService(self,content):
@@ -24,6 +26,10 @@ class BattleService:
             return True
         if(content=='首领初始化'):
             return True
+        if(content.find('打野') >= 0):
+            content = content.strip('打野')
+            flag = weapon_service.strToInt(content)
+            return flag
         return False
 
     def service(self,member,content):
@@ -53,6 +59,11 @@ class BattleService:
             return self.eatMedicine(member,content)
         if(content=='首领初始化'):
             return BossService().initBoss()
+        if(content.find('打野') >= 0):
+            self.register(member)
+            content = content.strip('打野')
+            eid = int(content)
+            return MonsterServie().hunt(member,eid)
 
     def eatMedicine(self,a,b):
         pa = self.getPerson(a)

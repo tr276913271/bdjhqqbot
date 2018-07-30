@@ -76,11 +76,10 @@ class Person:
         if(flag):
             process.handleAfterBattle(self,user)
             process.handleAfterBattle(user,self)
-        #破釜沉舟
-        process.deathBattle(self,user)
         return process.result,flag,process
 
 class BattleProcess:
+    hobby = ['足控','奶子','屁股','Furry','萝莉控']
     def __init__(self):
         self.aAttackCount = 0
         self.bAttackCount = 0
@@ -92,13 +91,15 @@ class BattleProcess:
     def damage(self,a,b,times=1):
         flag = False
         damage =  math.floor(a.attack()*times*round(1+random.uniform(-0.1,0.2),2))-b.defensive()
+        if(damage<0):
+            damage = 0
         if(random.randint(1,10)<=2):
             damage = 2*damage
             flag = True
         return damage, flag
 
-    def oneRound(self,a,b,flag):
-        damage, crit = self.damage(a,b)
+    def oneRound(self,a,b,flag,times=1):
+        damage, crit = self.damage(a,b,times)
         if(flag):
             if(crit):
                 self.aCritCount += 1
@@ -133,13 +134,15 @@ class BattleProcess:
         for i in range(30):
             b.hp -= self.oneRound(a,b,True)
             if(b.hp<=0):
-                self.handleMessage(a,b)
                 self.result += "\n"+a.name+" 战胜了 "+b.name+"\n"
+                self.deathBattle(b,a)
+                self.handleMessage(a,b)
                 return True
             a.hp -= self.oneRound(b,a,False)
             if(a.hp<=0):
-                self.handleMessage(a,b)
                 self.result += "\n"+b.name+" 战胜了 "+a.name+"\n"
+                self.deathBattle(a,b)
+                self.handleMessage(a,b)
                 return True
 
         self.handleMessage(a,b)
@@ -149,16 +152,20 @@ class BattleProcess:
     def deathBattle(self,a,b):
         if(random.randint(0,100)>30):
             return ""
+        self.result += a.name +"濒死\n但由于"+random.sample(BattleProcess.hobby, 1)[0]+"之神的眷顾，他发动了[破釜沉舟]，攻击力翻倍！\n"
         a.hp = a.maxhp/3
         for i in range(30):
-            b.hp -= self.damage(a,b,2)
+            b.hp -= self.oneRound(a,b,True,2)
             if(b.hp<=0):
-                return b.name + ""
-            a.hp -= self.damage(b,a)
+                self.result += "张狂的"+b.name + " 被击败了！\n"
+                return
+            a.hp -= self.oneRound(b,a,False)
             if(a.hp<=0):
-                return ""
-        return ""
-        # self.result += pb.name +" 发动了破釜沉舟！"
+                self.result += "可怜的"+a.name + "还是失败了！\n"
+                return
+        self.result += "平手\n"
+        return
+
 
     def handleAfterBattle(self,pa,pb):
         aexp = 0
