@@ -144,7 +144,7 @@ class WeaponService:
         if(e.etype == 2):
             return "不存在的装备哦"
         if(coin[0] < e.price):
-            return "大给币不够哦，打卡，打野，偷窃，都可以增加大给币哦"
+            return "大给币不够哦，打卡，任务，偷窃，都可以增加大给币哦"
         if(e.type == 1):
             p.head = e.id
         if(e.type == 2):

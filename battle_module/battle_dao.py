@@ -28,7 +28,7 @@ class BattleDao:
         dao = DBHelper()
         p = Person(uid)
         dao.insert("insert into battle(`level`, `hp`, `experience`, `attack`, `defense`, `head`, `body`, `weapon`, `userId`,`maxhp`,`profession`) VALUES (\
-            1,1000, 0,"+str(p.attack())+","+str(p.defensive())+",1,3,2, '"+str(uid)+"',1000,1)")
+            1,1000, 0,0,0,1,3,2, '"+str(uid)+"',1000,1)")
         dao.insert("insert into package(`userId`, `equipId`) VALUES ("+str(uid)+",1)")
         dao.insert("insert into package(`userId`, `equipId`) VALUES ("+str(uid)+",2)")
         dao.insert("insert into package(`userId`, `equipId`) VALUES ("+str(uid)+",3)")

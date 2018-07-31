@@ -11,6 +11,7 @@ class Equipment:
         self.defs = tuple[5]
         self.price = tuple[7]
         self.etype = tuple[6]
+        self.probability = tuple[8]
     def showInfo(self):
         return self.name+" ATK:"+str(self.atk)+" DEF:"+str(self.defs)
 

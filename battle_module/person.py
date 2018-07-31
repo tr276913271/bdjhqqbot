@@ -134,13 +134,13 @@ class BattleProcess:
         for i in range(30):
             b.hp -= self.oneRound(a,b,True)
             if(b.hp<=0):
-                self.result += "\n"+a.name+" 战胜了 "+b.name+"\n"
+                self.result += "\n"+a.name+" 战胜了 "+b.name+"!\n"
                 self.deathBattle(b,a)
                 self.handleMessage(a,b)
                 return True
             a.hp -= self.oneRound(b,a,False)
             if(a.hp<=0):
-                self.result += "\n"+b.name+" 战胜了 "+a.name+"\n"
+                self.result += "\n"+b.name+" 战胜了 "+a.name+"!\n"
                 self.deathBattle(a,b)
                 self.handleMessage(a,b)
                 return True
@@ -148,7 +148,7 @@ class BattleProcess:
         self.handleMessage(a,b)
         self.result+="平手\n"
         return True
-
+#破釜沉舟
     def deathBattle(self,a,b):
         if(random.randint(0,100)>30):
             return ""

@@ -22,6 +22,7 @@ class InstructionsIntroduce:
         menstr += "背包：查看背包信息\n"
         menstr += "卖出[ID]：卖出装备\n"
         menstr += "装备[ID]：装备装备\n"
+        menstr += "购买：购买[ID] 买商店里的物品\n"
         return menstr
 
     def instructionsIf(self,content):
@@ -29,4 +30,3 @@ class InstructionsIntroduce:
             return True
         else:
             return False
-

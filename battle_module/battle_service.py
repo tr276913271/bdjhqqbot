@@ -26,8 +26,8 @@ class BattleService:
             return True
         if(content=='首领初始化'):
             return True
-        if(content.find('打野') >= 0):
-            content = content.strip('打野')
+        if(content.find('任务') >= 0):
+            content = content.strip('任务')
             flag = weapon_service.strToInt(content)
             return flag
         return False
@@ -59,11 +59,11 @@ class BattleService:
             return self.eatMedicine(member,content)
         if(content=='首领初始化'):
             return BossService().initBoss()
-        if(content.find('打野') >= 0):
+        if(content.find('任务') >= 0):
             self.register(member)
-            content = content.strip('打野')
+            content = content.strip('任务')
             eid = int(content)
-            return MonsterServie().hunt(member,eid)
+            return MonsterServie().service(member,eid)
 
     def eatMedicine(self,a,b):
         pa = self.getPerson(a)
