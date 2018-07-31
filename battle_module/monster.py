@@ -3,6 +3,7 @@ from battle_module.person import Person
 from battle_module.battle_dao import BattleDao
 from battle_module.equipment_db import EquipmentDB
 from battle_module.package_dao import PackageDao
+from db_module.action_dao import ActionDao
 import  time,random
 
 level1T = (1,1,1000,0,000,000,1,3,2,0,1000,15)
@@ -18,9 +19,15 @@ class MonsterServie(object):
         self.level3 = Person("黑暗中的人")
         self.level3.initWithDB(level3T)
         self.result = ""
+        taskMap={'真紅':TaskBean(int(time.time()),int(time.time())-600,int(time.time())+1000)}
 
     def service(self,member,type):
-        taskMap={'真紅':TaskBean(int(time.time()),int(time.time())-600,int(time.time())+1000)}
+
+        person = BattleDao().selectUser(member)
+        if(type==1):
+            if(ActionDao().selectCount(2,person.userId)>3):
+                return "初级任务领取到达上限，看看[任务2]吧"
+            return self.hunt(member,type)
         if(member in taskMap):
             taskBean = taskMap[member]
             if(taskBean.isBefore()):
@@ -30,10 +37,14 @@ class MonsterServie(object):
                 return "该任务在"+taskBean.getSubmitTimeInterval()+"时间段提交，任务提交窗口关闭了，请重新接任务吧。"
             else:
                 r = self.hunt(member,type)
-                del taskMap[member]
                 return r
         else:
-            return getTask(member,type)
+            if(ActionDao().selectCount(3,person.userId)>3):
+                return "中级任务领取到达上限，看看[任务3]吧"
+            return self.getTask(member,type)
+            if(ActionDao().selectCount(4,person.userId)>3):
+                return "高级任务领取到达上限，去打世界首领[挑战]吧"
+            return self.getTask(member,type)
 
     def getTask(self,member,type):
         stamp = int(time.time())
@@ -47,6 +58,7 @@ class MonsterServie(object):
 
     def hunt(self,member,type):
         dao = BattleDao()
+        actionDao = ActionDao()
         person = dao.selectUser(member)
         if(type==1):
             self.level1.level  = person.level
@@ -55,17 +67,24 @@ class MonsterServie(object):
             self.result += result
             self.level1.hp = self.level1.maxhp
             dao.updateBattleInfo(person)
-            if(person.hp>0):
-                self.bootySend(person,[1])
+            if(flag):
+                del taskMap[member]
+                if(person.hp>0):
+                    self.bootySend(person,[1,2,3,11])
+                    actionDao.insert(2,person.userId)
         elif (type ==2):
+            print(taskMap)
             self.level2.level  = person.level * 2
             self.result = "你来到了Bog城堡!Bog们正在刷A岛！讨伐开始\n"
             result,flag,process = person.battleWith(self.level2)
             self.result += result
             self.level2.hp = self.level2.maxhp
             dao.updateBattleInfo(person)
-            if(person.hp>0):
-                self.bootySend(person,[1])
+            if(flag):
+                del taskMap[member]
+                if(person.hp>0):
+                    self.bootySend(person,[12,13,15])
+                    actionDao.insert(3,person.userId)
         elif (type ==3):
             self.level3.level  = person.level * 5
             self.result = "你来到了尿尿屋地下室!黑暗中有人向你袭来！讨伐开始\n"
@@ -73,17 +92,22 @@ class MonsterServie(object):
             self.result += result
             self.level3.hp = self.level3.maxhp
             dao.updateBattleInfo(person)
-            if(person.hp>0):
-                self.bootySend(person,[1])
+            if(flag):
+                del taskMap[member]
+                if(person.hp>0):
+                    self.bootySend(person,[20,14,20,11])
+                    actionDao.insert(4,person.userId)
         return self.result
 
     def bootySend(self,person,list):
         dao = PackageDao()
+        random.shuffle(list)
         for id in list:
             if(not EquipmentDB.EDB[id] == None):
                 if(random.randint(0,100)<EquipmentDB.EDB[id].probability):
                     self.result += person.name+"获得了"+EquipmentDB.EDB[id].name+"!\n"
                     dao.insert(person.userId,id)
+                    return ""
 
 class TaskBean:
     def __init__(self,timeStamp,closeStart,closeEnd):

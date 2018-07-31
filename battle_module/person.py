@@ -129,7 +129,7 @@ class BattleProcess:
             self.result =  "我方HP：0 我方濒死，难道你想被趁热吗……\n"
             return False
         if(b.defensive()>=a.attack()):
-            self.result =  "对方DEF："+str(b.defensive())+" 我方ATK："+str(a.attack())+"\n 你就是个弟弟啊，不要去招惹他人"
+            self.result =  "对方DEF："+str(b.defensive())+" 我方ATK："+str(a.attack())+"\n你就是个弟弟啊，不要去招惹他人"
             return False
         for i in range(30):
             b.hp -= self.oneRound(a,b,True)

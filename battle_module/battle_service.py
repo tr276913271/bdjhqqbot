@@ -123,9 +123,9 @@ class BattleService:
         pb = dao.selectUser(b)
         if(pa.userId==pb.userId):
             return "自己打自己，你怎么不上天"
-        if(ActionDao().selectCount(1,pa.userId)>10):
+        if(ActionDao().selectCount(1,pa.userId)>4):
             return "今天已经超过决斗次数了哦，去[挑战]世界首领吧"
-        if(ActionDao().selectCount(1,pb.userId)>10):
+        if(ActionDao().selectCount(1,pb.userId)>4):
             return "他今天已经超过决斗次数了哦，去[挑战]世界首领吧"
         result,flag,process = pa.battleWith(pb)
         dao.updateBattleInfo(pa)
@@ -137,14 +137,14 @@ class BattleService:
 
     def getCheckenBox(self,member):
         p = self.getPerson(member)
-        if(ActionDao().selectCount(2,p.userId)>3):
+        if(ActionDao().selectCount(2,p.userId)>2):
             return "今天已经领过鸡盒了哦，暴食肥肥！！"
-        p.hp+=1000
+        p.hp+=2000
         if(p.hp>=p.maxhp):
             p.hp = p.maxhp
         ActionDao().insert(2,p.userId)
         BattleDao().updateBattleInfo(p)
-        return "欧尼酱领取了鸡盒 HP 恢复了1000 点"
+        return "欧尼酱领取了鸡盒 HP 恢复了2000 点"
 
     def getPerson(self,member):
         dao = BattleDao()
