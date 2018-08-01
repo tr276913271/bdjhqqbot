@@ -40,7 +40,10 @@ class MonsterServie(object):
                 return "初级任务领取到达上限，看看[任务2]吧"
             return self.hunt(member,type)
         if(member in MonsterServie.taskMap):
-            return "已经领取了"+MonsterServie.taskMap[member].type+"任务，去[交任务]看看吧！"
+            if(MonsterServie.taskMap[member].type==2):
+                return "已经领取了中级任务，去[交任务]看看吧！"
+            if(MonsterServie.taskMap[member].type==3):
+                return "已经领取了高级任务，去[交任务]看看吧！"
         else:
             if(ActionDao().selectCount(3,person.userId)>2):
                 return "中级任务领取到达上限，看看[任务3]吧"
