@@ -4,6 +4,7 @@ from db_module.action_dao import ActionDao
 from db_module.like_member import LikeMember
 import math,random
 from battle_module.boss import BossService
+from battle_module.monster import MonsterServie
 
 class BattleService:
     def shouldService(self,content):
