@@ -26,6 +26,8 @@ class BattleService:
             return True
         if(content=='首领初始化'):
             return True
+        if(content=='交任务'):
+            return True
         if(content.find('任务') >= 0):
             content = content.strip('任务')
             flag = weapon_service.strToInt(content)
@@ -59,6 +61,8 @@ class BattleService:
             return self.eatMedicine(member,content)
         if(content=='首领初始化'):
             return BossService().initBoss()
+        if(content=='交任务'):
+            return MonsterServie().submit(member)
         if(content.find('任务') >= 0):
             self.register(member)
             content = content.strip('任务')

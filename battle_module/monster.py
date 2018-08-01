@@ -9,8 +9,9 @@ import  time,random
 level1T = (1,1,1000,0,000,000,1,3,2,0,1000,15)
 level2T = (1,1,2000,0,100,100,1,3,2,0,2000,15)
 level3T = (1,1,4000,0,200,200,1,3,2,0,4000,15)
-taskMap = {}
+
 class MonsterServie(object):
+    taskMap = {}
     def __init__(self):
         self.level1 = Person("贪食的肥肥")
         self.level1.initWithDB(level1T)
@@ -19,30 +20,32 @@ class MonsterServie(object):
         self.level3 = Person("黑暗中的人")
         self.level3.initWithDB(level3T)
         self.result = ""
-        taskMap={'真紅':TaskBean(int(time.time()),int(time.time())-600,int(time.time())+1000)}
-
-    def service(self,member,type):
-
-        person = BattleDao().selectUser(member)
-        if(type==1):
-            if(ActionDao().selectCount(2,person.userId)>3):
-                return "初级任务领取到达上限，看看[任务2]吧"
-            return self.hunt(member,type)
-        if(member in taskMap):
-            taskBean = taskMap[member]
+    def submit(self,member):
+        if(member in MonsterServie.taskMap):
+            taskBean = MonsterServie.taskMap[member]
             if(taskBean.isBefore()):
                 return "还没有到任务地点哦，请在"+taskBean.getSubmitTimeInterval()+"时间段 [交任务]！"
             elif (taskBean.isAfter()):
-                del taskMap[member]
+                del MonsterServie.taskMap[member]
                 return "该任务在"+taskBean.getSubmitTimeInterval()+"时间段提交，任务提交窗口关闭了，请重新接任务吧。"
             else:
-                r = self.hunt(member,type)
+                r = self.hunt(member,taskBean.type)
                 return r
+        return "还没有任务可交哦，试试领取[任务ID]吧"
+
+    def service(self,member,type):
+        person = BattleDao().selectUser(member)
+        if(type==1):
+            if(ActionDao().selectCount(5,person.userId)>2):
+                return "初级任务领取到达上限，看看[任务2]吧"
+            return self.hunt(member,type)
+        if(member in MonsterServie.taskMap):
+            return "已经领取了"+MonsterServie.taskMap[member].type+"任务，去[交任务]看看吧！"
         else:
-            if(ActionDao().selectCount(3,person.userId)>3):
+            if(ActionDao().selectCount(3,person.userId)>2):
                 return "中级任务领取到达上限，看看[任务3]吧"
             return self.getTask(member,type)
-            if(ActionDao().selectCount(4,person.userId)>3):
+            if(ActionDao().selectCount(4,person.userId)>2):
                 return "高级任务领取到达上限，去打世界首领[挑战]吧"
             return self.getTask(member,type)
 
@@ -50,10 +53,10 @@ class MonsterServie(object):
         stamp = int(time.time())
         if(type==2):
             self.result = "领取中级任务! 请10分钟后[交任务]领取奖励，交接时间窗口：60分钟\n"
-            taskMap[member] = TaskBean(stamp,stamp+600,stamp+6000)
+            MonsterServie.taskMap[member] = TaskBean(2,stamp,stamp+600,stamp+6000)
         if(type==3):
             self.result = "领取高级任务! 请30分钟后[交任务]领取奖励，交接时间窗口：5分钟\n"
-            taskMap[member] = TaskBean(stamp,stamp+1800,stamp+2100)
+            MonsterServie.taskMap[member] = TaskBean(3,stamp,stamp+1800,stamp+2100)
         return self.result
 
     def hunt(self,member,type):
@@ -67,13 +70,10 @@ class MonsterServie(object):
             self.result += result
             self.level1.hp = self.level1.maxhp
             dao.updateBattleInfo(person)
-            if(flag):
-                del taskMap[member]
-                if(person.hp>0):
-                    self.bootySend(person,[1,2,3,11])
-                    actionDao.insert(2,person.userId)
+            if(flag and person.hp>0):
+                self.bootySend(person,[1,2,3,11])
+                actionDao.insert(5,person.userId)
         elif (type ==2):
-            print(taskMap)
             self.level2.level  = person.level * 2
             self.result = "你来到了Bog城堡!Bog们正在刷A岛！讨伐开始\n"
             result,flag,process = person.battleWith(self.level2)
@@ -81,7 +81,7 @@ class MonsterServie(object):
             self.level2.hp = self.level2.maxhp
             dao.updateBattleInfo(person)
             if(flag):
-                del taskMap[member]
+                del MonsterServie.taskMap[member]
                 if(person.hp>0):
                     self.bootySend(person,[12,13,15])
                     actionDao.insert(3,person.userId)
@@ -93,9 +93,9 @@ class MonsterServie(object):
             self.level3.hp = self.level3.maxhp
             dao.updateBattleInfo(person)
             if(flag):
-                del taskMap[member]
+                del MonsterServie.taskMap[member]
                 if(person.hp>0):
-                    self.bootySend(person,[20,14,20,11])
+                    self.bootySend(person,[17,14,17,16])
                     actionDao.insert(4,person.userId)
         return self.result
 
@@ -110,7 +110,8 @@ class MonsterServie(object):
                     return ""
 
 class TaskBean:
-    def __init__(self,timeStamp,closeStart,closeEnd):
+    def __init__(self,type,timeStamp,closeStart,closeEnd):
+        self.type = type
         self.timeStamp = timeStamp
         self.closeStart = closeStart
         self.closeEnd = closeEnd

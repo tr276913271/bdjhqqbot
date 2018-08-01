@@ -23,6 +23,8 @@ class InstructionsIntroduce:
         menstr += "卖出[ID]：卖出装备\n"
         menstr += "装备[ID]：装备装备\n"
         menstr += "购买：购买[ID] 买商店里的物品\n"
+        menstr += "任务：任务[ID] 可领取初级中级高级任务\n"
+        menstr += "交任务：交任务\n"
         return menstr
 
     def instructionsIf(self,content):
