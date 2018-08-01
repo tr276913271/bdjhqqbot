@@ -64,8 +64,8 @@ def onQQMessage(bot, contact, member, content):
     elif (TheSteal().stealing(content)):
         bot.SendTo(contact, TheSteal().stealingFun(member.name, content))
     # 远程
-    elif AdminSupervise().administrator(member.name):
-        bot.SendTo(contact,AdminSupervise().remoteAdminService(content))
+    #elif AdminSupervise().administrator(member.name):
+    #    bot.SendTo(contact,AdminSupervise().remoteAdminService(content))
 
     # A岛常用串
     elif GuidePost().commonPostIf(content):
