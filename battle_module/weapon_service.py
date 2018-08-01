@@ -22,7 +22,7 @@ class WeaponDao:
 
     def selectBasicUser(self,member):
         print(member)
-        userId = battle_service.BattleDao().selectUid(member)
+        userId = battle_module.battle_service.BattleDao().selectUid(member)
         p = person.Person(member)
         p.initBasicWithDB(self.db.selectOne("select * from battle where userId="+str(userId[0])))
         return p
@@ -36,7 +36,7 @@ class WeaponDao:
 class WeaponService:
     def __init__(self):
         self.result = ""
-        self.battleService = battle_service.BattleService()
+        self.battleService = battle_module.battle_service.BattleService()
 
     def shouldService(self,content):
         if(content=='商店武器'):
