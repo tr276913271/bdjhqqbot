@@ -4,7 +4,6 @@ from db_module.action_dao import ActionDao
 from db_module.like_member import LikeMember
 import math,random
 from battle_module.boss import BossService
-from battle_module.weapon_service import *
 from battle_module.monster import MonsterServie
 
 class BattleService:
@@ -30,8 +29,11 @@ class BattleService:
             return True
         if(content.find('任务') >= 0):
             content = content.strip('任务')
-            flag = weapon_service.strToInt(content)
-            return flag
+            try:
+                eid = int(content)
+                return True
+            except Exception as e:
+                return False
         return False
 
     def service(self,member,content):

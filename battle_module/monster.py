@@ -39,24 +39,29 @@ class MonsterServie(object):
             if(ActionDao().selectCount(5,person.userId)>2):
                 return "初级任务领取到达上限，看看[任务2]吧"
             return self.hunt(member,type)
-        if(member in MonsterServie.taskMap):
-            return "已经领取了"+MonsterServie.taskMap[member].type+"任务，去[交任务]看看吧！"
-        else:
+        if(type==2):
             if(ActionDao().selectCount(3,person.userId)>2):
                 return "中级任务领取到达上限，看看[任务3]吧"
-            return self.getTask(member,type)
+        if(type==3):
             if(ActionDao().selectCount(4,person.userId)>2):
                 return "高级任务领取到达上限，去打世界首领[挑战]吧"
-            return self.getTask(member,type)
+        if(member in MonsterServie.taskMap):
+            if(MonsterServie.taskMap[member].type==2):
+                return "已经领取了中级任务，去[交任务]看看吧！"
+            if(MonsterServie.taskMap[member].type==3):
+                return "已经领取了高级任务，去[交任务]看看吧！"
+        return self.getTask(member,type)
 
     def getTask(self,member,type):
         stamp = int(time.time())
         if(type==2):
-            self.result = "领取中级任务! 请10分钟后[交任务]领取奖励，交接时间窗口：60分钟\n"
             MonsterServie.taskMap[member] = TaskBean(2,stamp,stamp+600,stamp+6000)
+            self.result = "领取中级任务! 打到聚集的Bog！ 请10分钟后[交任务]领取奖励，交接时间窗口：60分钟\n"\
+            +"交接窗口 "+MonsterServie.taskMap[member].getSubmitTimeInterval()+"\n"
         if(type==3):
-            self.result = "领取高级任务! 请30分钟后[交任务]领取奖励，交接时间窗口：5分钟\n"
             MonsterServie.taskMap[member] = TaskBean(3,stamp,stamp+1800,stamp+2100)
+            self.result = "领取高级任务! 打扫尿尿屋地下室！请30分钟后[交任务]领取奖励，交接时间窗口：5分钟\n"\
+            +"交接窗口 "+MonsterServie.taskMap[member].getSubmitTimeInterval()+"\n"
         return self.result
 
     def hunt(self,member,type):
@@ -71,7 +76,7 @@ class MonsterServie(object):
             self.level1.hp = self.level1.maxhp
             dao.updateBattleInfo(person)
             if(flag and person.hp>0):
-                self.bootySend(person,[1,2,3,11])
+                self.bootySend(type,person,[1,2,3,11])
                 actionDao.insert(5,person.userId)
         elif (type ==2):
             self.level2.level  = person.level * 2
@@ -83,7 +88,7 @@ class MonsterServie(object):
             if(flag):
                 del MonsterServie.taskMap[member]
                 if(person.hp>0):
-                    self.bootySend(person,[12,13,15])
+                    self.bootySend(type,person,[12,13,15])
                     actionDao.insert(3,person.userId)
         elif (type ==3):
             self.level3.level  = person.level * 5
@@ -95,11 +100,14 @@ class MonsterServie(object):
             if(flag):
                 del MonsterServie.taskMap[member]
                 if(person.hp>0):
-                    self.bootySend(person,[17,14,17,16])
+                    self.bootySend(type,person,[17,14,17,16])
                     actionDao.insert(4,person.userId)
         return self.result
 
-    def bootySend(self,person,list):
+    def bootySend(self,type,person,list):
+        money = random.randint(30,50)*type
+        BattleDao().updateCoin(money,person.userId)
+        self.result += person.name+"获得了"+str(money)+"大给币\n"
         dao = PackageDao()
         random.shuffle(list)
         for id in list:

@@ -16,7 +16,7 @@ class WeaponDao:
 
     def selectBasicUser(self,member):
         print(member)
-        userId = battle_service.BattleDao().selectUid(member)
+        userId = battle_module.battle_service.BattleDao().selectUid(member)
         p = person.Person(member)
         p.initBasicWithDB(self.db.selectOne("select * from battle where userId="+str(userId[0])))
         return p
@@ -30,7 +30,7 @@ class WeaponDao:
 class WeaponService:
     def __init__(self):
         self.result = ""
-        self.battleService = battle_service.BattleService()
+        self.battleService = battle_module.battle_service.BattleService()
 
     def shouldService(self,content):
         if(content=='商店武器'):
@@ -94,7 +94,7 @@ class WeaponService:
                 if(ee.type==2):
                     p.weapon = ee.id
                 if(ee.type==3):
-                    p.body = ee.id
+                    p.breast = ee.id
                 wdao.updateEquipInfo(p)
                 return "已装备"+ee.name+" 输入 人物信息 查看"
         return "没有这件装备哦，去商店看看吧"
