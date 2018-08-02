@@ -101,7 +101,7 @@ class WeaponService:
                 if(ee.type==2):
                     p.weapon = ee.id
                 if(ee.type==3):
-                    p.body = ee.id
+                    p.breast = ee.id
                 wdao.updateEquipInfo(p)
                 return "已装备"+ee.name+" 输入 人物信息 查看"
         return "没有这件装备哦，去商店看看吧"
