@@ -41,17 +41,17 @@ class WeaponService:
             return True
         if(content.find('购买') >= 0):
             content = content.strip('购买')
-            flag,eid = battle_util.strToInt(content)
+            flag,eid = strToInt(content)
             return flag
         if(content=='背包'):
             return True
         if(content.find('卖出') >= 0):
             content = content.strip('卖出')
-            flag,eid = battle_util.strToInt(content)
+            flag,eid = strToInt(content)
             return flag
         if(content.find('装备') >= 0):
             content = content.strip('装备')
-            flag,eid = battle_util.strToInt(content)
+            flag,eid = strToInt(content)
             return flag
         return False
 
@@ -63,20 +63,20 @@ class WeaponService:
         if(content=='商店胸甲'):
             return self.showWeaponInfo(3)
         if(content.find('购买') >= 0):
-            self.battleService.register(member)
+            register(member)
             content = content.strip('购买')
             eid = int(content)
             return self.buy(member,eid)
         if(content=='背包'):
-            self.battleService.register(member)
+            register(member)
             return self.showPackage(member)
         if(content.find('卖出') >= 0):
-            self.battleService.register(member)
+            register(member)
             content = content.strip('卖出')
             eid = int(content)
             return self.sellPackage(member,eid)
         if(content.find('装备') >= 0):
-            self.battleService.register(member)
+            register(member)
             content = content.strip('装备')
             eid = int(content)
             return self.equipEquipment(member,eid)

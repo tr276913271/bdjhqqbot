@@ -5,6 +5,7 @@ from db_module.like_member import LikeMember
 import math,random
 from battle_module.boss import BossService
 from battle_module.monster import MonsterServie
+from battle_module.battle_util import *
 
 class BattleService:
     def shouldService(self,content):
@@ -29,44 +30,41 @@ class BattleService:
             return True
         if(content.find('任务') >= 0):
             content = content.strip('任务')
-            try:
-                eid = int(content)
-                return True
-            except Exception as e:
-                return False
+            flag,eid =  strToInt(content)
+            return flag
         return False
 
     def service(self,member,content):
         if(content=='人物信息'):
             dao = BattleDao()
-            self.register(member)
+            register(member)
             return dao.selectUser(member).showInfo()
         if(content=='鸡盒'):
-            self.register(member)
+            register(member)
             return self.getCheckenBox(member)
         if(content=='挑战'):
-            self.register(member)
+            register(member)
             return self.challenge(member)
         if(content=='世界首领'):
-            self.register(member)
+            register(member)
             return BattleDao().selectActiveBoss().showInfo()
         if(content.find('决斗@') >= 0):
             content = content.strip('决斗@')
-            content = self.registerB(member,content)
+            content = registerB(member,content)
             return self.battleService(member,content)
         if(content=='买药'):
-            self.register(member)
+            register(member)
             return self.buyMedicine(member)
         if(content.find('喂饼@') >= 0):
             content = content.strip('喂饼@')
-            content = self.registerB(member,content)
+            content = registerB(member,content)
             return self.eatMedicine(member,content)
         if(content=='首领初始化'):
             return BossService().initBoss()
         if(content=='交任务'):
             return MonsterServie().submit(member)
         if(content.find('任务') >= 0):
-            self.register(member)
+            register(member)
             content = content.strip('任务')
             eid = int(content)
             return MonsterServie().service(member,eid)
@@ -104,24 +102,6 @@ class BattleService:
         if(flag):
             result += BossService().handleAfterChallange(process,a,boss)
         return result
-
-    def registerB(self,member,content):
-        self.register(member)
-        if(LikeMember().likeMemberBe(content)==False):
-            self.register(content)
-        b = LikeMember().likeMember(content)
-        self.register(b)
-        return b
-
-    def register(self,member):
-        dao = BattleDao()
-        if(dao.isNewUser(member)):
-            uid = dao.insertNewUser(member)
-            dao.insertBattle(uid)
-        else:
-            uid = dao.selectUid(member)
-            if(dao.isNewBattle(uid[0])):
-                dao.insertBattle(uid[0])
 
     def battleService(self,a,b):
         dao = BattleDao()
