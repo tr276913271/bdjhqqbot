@@ -150,7 +150,7 @@ class BattleProcess:
         return True
 #破釜沉舟
     def deathBattle(self,a,b):
-        if(random.randint(0,100)>30):
+        if(random.randint(0,100)>20):
             return ""
         self.result += a.name +"濒死\n但由于"+random.sample(BattleProcess.hobby, 1)[0]+"之神的眷顾，他发动了[破釜沉舟]，攻击力翻倍！\n"
         a.hp = a.maxhp/3
