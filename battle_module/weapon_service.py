@@ -1,13 +1,7 @@
 # -*- coding: UTF-8 -*-
 from battle_module import *
 from db_module.connect_db import DBHelper
-
-def strToInt(content):
-    try:
-        eid = int(content)
-        return True,eid
-    except Exception as e:
-        return False,0
+from battle_module.battle_util import *
 
 class WeaponDao:
     def __init__(self):
@@ -47,17 +41,17 @@ class WeaponService:
             return True
         if(content.find('购买') >= 0):
             content = content.strip('购买')
-            flag,eid = strToInt(content)
+            flag,eid = battle_util.strToInt(content)
             return flag
         if(content=='背包'):
             return True
         if(content.find('卖出') >= 0):
             content = content.strip('卖出')
-            flag,eid = strToInt(content)
+            flag,eid = battle_util.strToInt(content)
             return flag
         if(content.find('装备') >= 0):
             content = content.strip('装备')
-            flag,eid = strToInt(content)
+            flag,eid = battle_util.strToInt(content)
             return flag
         return False
 
@@ -91,8 +85,7 @@ class WeaponService:
     def equipEquipment(self,member,eid):
         wdao = WeaponDao()
         p = wdao.selectBasicUser(member)
-        pDao = package_dao.PackageDao()
-        plist = pDao.selectByUserIdAndEquipId(p.userId,eid)
+        plist = package_dao.PackageDao().selectByUserIdAndEquipId(p.userId,eid)
         for e in plist:
             if(e[2]==eid):
                 ee = equipment_db.EquipmentDB.EDB[e[2]]
