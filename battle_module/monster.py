@@ -59,7 +59,7 @@ class MonsterServie(object):
             self.result = "领取中级任务! 打到聚集的Bog！ 请10分钟后[交任务]领取奖励，交接时间窗口：60分钟\n"\
             +"交接窗口 "+MonsterServie.taskMap[member].getSubmitTimeInterval()+"\n"
         if(type==3):
-            MonsterServie.taskMap[member] = TaskBean(3,stamp,stamp-1800,stamp+2100)
+            MonsterServie.taskMap[member] = TaskBean(3,stamp,stamp+1800,stamp+2100)
             self.result = "领取高级任务! 打扫尿尿屋地下室！请30分钟后[交任务]领取奖励，交接时间窗口：5分钟\n"\
             +"交接窗口 "+MonsterServie.taskMap[member].getSubmitTimeInterval()+"\n"
         return self.result
