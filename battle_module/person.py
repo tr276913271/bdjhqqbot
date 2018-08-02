@@ -155,11 +155,11 @@ class BattleProcess:
         self.result += a.name +"濒死\n但由于"+random.sample(BattleProcess.hobby, 1)[0]+"之神的眷顾，他发动了[破釜沉舟]，攻击力翻倍！\n"
         a.hp = a.maxhp/3
         for i in range(30):
-            b.hp -= self.oneRound(a,b,True,2)
+            b.hp -= self.oneRound(a,b,False,2)
             if(b.hp<=0):
                 self.result += "张狂的"+b.name + " 被击败了！\n"
                 return
-            a.hp -= self.oneRound(b,a,False)
+            a.hp -= self.oneRound(b,a,True)
             if(a.hp<=0):
                 self.result += "可怜的"+a.name + "还是失败了！\n"
                 return
