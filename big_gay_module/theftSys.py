@@ -11,7 +11,7 @@ class TheftSystem:
         self.userCoin = DBTStr().userCoinStr(self.member2)
         
         self.userCoin = int(self.userCoin)
-        if random.random() < 0.5:
+        if random.random() < 0.3:
             timeToday = time.strftime("%Y-%m-%d", time.localtime())
             member1userid = DBTStr().userIdStr(self.member1)
             member2userid = DBTStr().userIdStr(self.member2)

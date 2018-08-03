@@ -30,17 +30,17 @@ class TheSteal:
         else:
             self.member2 = LikeMember().likeMember(self.member2)
             # 查询次数member1当天的偷取的次数
-            if int( DBTStr().theftNum(self.member1)) < 3:
+            if int( DBTStr().theftNum(self.member1)) < 1:
                 # 查询member2当天被偷窃的次数
-                if int ( DBTStr().theBeFtNum(self.member2)) <3:
+                if int ( DBTStr().theBeFtNum(self.member2)) <1:
                     self.member2 = LikeMember().likeMember(self.member2)
                     self.menstr = TheftSystem().theftFun(self.member1, self.member2)
                     return self.menstr
                 else:
-                    self.menstr = self.member2 + '欧尼酱今天被偷过3次了哦，他提高戒心了呢，偷不到了(つд⊂)'
+                    self.menstr = self.member2 + '欧尼酱今天被偷过了哦，他提高戒心了呢，偷不到了(つд⊂)'
                     return self.menstr
             else:
-                self.menstr = self.member1 + '欧尼酱你今天已经偷过3次了，还这么贪心的吗！小心扣你大给币！(￣︿￣)'
+                self.menstr = self.member1 + '欧尼酱你今天已经偷过了，还这么贪心的吗！小心扣你大给币！(￣︿￣)'
                 return self.menstr
 
 
