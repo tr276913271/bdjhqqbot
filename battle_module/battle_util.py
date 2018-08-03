@@ -26,3 +26,12 @@ def register(member):
         uid = dao.selectUid(member)
         if(dao.isNewBattle(uid[0])):
             dao.insertBattle(uid[0])
+
+def getPerson(member):
+    return BattleDao().selectUser(member)
+
+def saveCoin(price,userId):
+    return BattleDao().updateCoin(price,userId)
+
+def getCoin(userId):
+    return BattleDao().selectCoin(userId)[0]

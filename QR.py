@@ -17,6 +17,7 @@ from Island_module.guide_post import GuidePost
 from battle_module.profession_service import ProfessionService
 from battle_module.weapon_service import WeaponService
 from other_module.instructions import InstructionsIntroduce
+from big_gay_module.bank_service import BankService
 
 def onQQMessage(bot, contact, member, content):
     if content[: 5: ] != '[@ME]':
@@ -31,6 +32,9 @@ def onQQMessage(bot, contact, member, content):
     # 转职
     elif (ProfessionService().shouldService(content)):
         bot.SendTo(contact,ProfessionService().service(member.name,content))
+    # 银行
+    elif (BankService().shouldService(content)):
+        bot.SendTo(contact,BankService().service(member.name,content))
     # 装备
     elif (WeaponService().shouldService(content)):
         bot.SendTo(contact,WeaponService().service(member.name,content))

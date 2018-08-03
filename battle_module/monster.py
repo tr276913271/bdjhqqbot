@@ -36,14 +36,14 @@ class MonsterServie(object):
     def service(self,member,type):
         person = BattleDao().selectUser(member)
         if(type==1):
-            if(ActionDao().selectCount(5,person.userId)>2):
+            if(ActionDao().selectCount(5,person.userId)>0):
                 return "初级任务领取到达上限，看看[任务2]吧"
             return self.hunt(member,type)
         if(type==2):
-            if(ActionDao().selectCount(3,person.userId)>2):
+            if(ActionDao().selectCount(3,person.userId)>0):
                 return "中级任务领取到达上限，看看[任务3]吧"
         if(type==3):
-            if(ActionDao().selectCount(4,person.userId)>2):
+            if(ActionDao().selectCount(4,person.userId)>0):
                 return "高级任务领取到达上限，去打世界首领[挑战]吧"
         if(member in MonsterServie.taskMap):
             if(MonsterServie.taskMap[member].type==2):
