@@ -53,13 +53,12 @@ class Person:
         return self.level
 
     def showInfo(self):
-        info = "欧尼酱的人物信息如下哦：\n"
         info += "ID："+self.name+" "+"MAXHP/HP："+str(self.maxhp)+"/"+str(self.hp)+"\n"
         info += "职业："+str(self.profession.codeName)+"\n"
-        info += "等级："+str(self.level)+"\n"
+        info += "等级："+str(self.level)+" "
         info += "经验："+str(self.exp)+"\n"
         info += "力量："+str(self.atk)+"  敏捷："+str(self.defense)+"\n"
-        info += "攻击力："+str(self.attack())+"\n"
+        info += "攻击力："+str(self.attack())+" "
         info += "防御力："+str(self.defensive())+"\n"
         info += "头部："+self.head.showInfo()+"\n"
         info += "胸部："+self.breast.showInfo()+"\n"
@@ -116,20 +115,20 @@ class BattleProcess:
 
 
     def handleMessage(self,a,b):
-        self.result +="本次战斗："+ a.name +" 造成了:"+str(self.aDamage) +"点伤害 "+ " 普攻次数:"+str(self.aAttackCount)+" 暴击次数:"+str(self.aCritCount)+"\n"
-        self.result +="本次战斗："+ b.name +" 造成了:"+str(self.bDamage) +"点伤害 "+ " 普攻次数:"+str(self.bAttackCount)+" 暴击次数:"+str(self.bCritCount)+"\n"
+        self.result +="本次战斗："+ a.name +" 造成:"+str(self.aDamage) +"伤害, 暴击次数:"+str(self.aCritCount)+"\n"
+        self.result +="本次战斗："+ b.name +" 造成:"+str(self.bDamage) +"伤害, 暴击次数:"+str(self.bCritCount)+"\n"
 
     def battleWith(self,a,b):
         self.result = a.name + " HP:"+str(a.hp)+" ATK:"+str(a.attack())+" DEF:"+str(a.defensive())+" vs "
         self.result += b.name + " HP:"+str(b.hp)+" ATK:"+str(b.attack())+" DEF:"+str(b.defensive())+"\n"
         if(b.hp<=0):
-            self.result = "对方HP：0 对方濒死，趁热……快……趁热\n"
+            self.result = "对方HP：0 对方濒死\n"
             return False
         if(a.hp<=0):
-            self.result =  "我方HP：0 我方濒死，难道你想被趁热吗……\n"
+            self.result =  "我方HP：0 我方濒死\n"
             return False
         if(b.defensive()>=a.attack()):
-            self.result =  "对方DEF："+str(b.defensive())+" 我方ATK："+str(a.attack())+"\n你就是个弟弟啊，不要去招惹他人"
+            self.result =  "对方DEF："+str(b.defensive())+" 我方ATK："+str(a.attack())+"\n打不过\n"
             return False
         for i in range(30):
             b.hp -= self.oneRound(a,b,True)
@@ -152,7 +151,7 @@ class BattleProcess:
     def deathBattle(self,a,b):
         if(random.randint(0,100)>20):
             return ""
-        self.result += a.name +"濒死\n但由于"+random.sample(BattleProcess.hobby, 1)[0]+"之神的眷顾，他发动了[破釜沉舟]，攻击力翻倍！\n"
+        self.result += a.name +"濒死，由于"+random.sample(BattleProcess.hobby, 1)[0]+"之神的眷顾，发动了[破釜沉舟]，攻击力翻倍！\n"
         a.hp = a.maxhp/3
         for i in range(30):
             b.hp -= self.oneRound(a,b,False,2)

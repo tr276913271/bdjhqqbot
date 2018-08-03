@@ -24,10 +24,10 @@ class MonsterServie(object):
         if(member in MonsterServie.taskMap):
             taskBean = MonsterServie.taskMap[member]
             if(taskBean.isBefore()):
-                return "还没有到任务地点哦，请在"+taskBean.getSubmitTimeInterval()+"时间段 [交任务]！"
+                return "未到任务地点：请在"+taskBean.getSubmitTimeInterval()+"时间段 [交任务]！"
             elif (taskBean.isAfter()):
                 del MonsterServie.taskMap[member]
-                return "该任务在"+taskBean.getSubmitTimeInterval()+"时间段提交，任务提交窗口关闭了，请重新接任务吧。"
+                return "该任务在"+taskBean.getSubmitTimeInterval()+"已经过期"
             else:
                 r = self.hunt(member,taskBean.type)
                 return r
