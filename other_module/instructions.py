@@ -20,11 +20,15 @@ class InstructionsIntroduce:
         menstr += "ROLL：ROLL点\n"
         menstr += "决斗：决斗@姓名 干死别人\n"
         menstr += "背包：查看背包信息\n"
-        menstr += "卖出[ID]：卖出装备\n"
+        menstr += "卖出[ID]：卖出装备 "
         menstr += "装备[ID]：装备装备\n"
         menstr += "购买：购买[ID] 买商店里的物品\n"
         menstr += "任务：任务[ID] 可领取初级中级高级任务\n"
-        menstr += "交任务：交任务\n"
+        menstr += "银行信息：银行信息\n"
+        menstr += "提升银行会员：提升银行会员 "
+        menstr += "开户：在银行开户\n"
+        menstr += "存钱：存钱[金额] "
+        menstr += "取钱：存钱[金额]\n"
         return menstr
 
     def instructionsIf(self,content):
