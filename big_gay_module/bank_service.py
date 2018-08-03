@@ -34,6 +34,10 @@ class BankService:
             content = content.strip('存钱')
             flag,eid =  strToInt(content)
             return flag
+        if(content.find('取钱') >= 0):
+            content = content.strip('取钱')
+            flag,eid =  strToInt(content)
+            return flag
 
 
     def service(self,member,content):
