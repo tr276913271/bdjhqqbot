@@ -53,7 +53,7 @@ class Person:
         return self.level
 
     def showInfo(self):
-        info += "ID："+self.name+" "+"MAXHP/HP："+str(self.maxhp)+"/"+str(self.hp)+"\n"
+        info = "ID："+self.name+" "+"MAXHP/HP："+str(self.maxhp)+"/"+str(self.hp)+"\n"
         info += "职业："+str(self.profession.codeName)+"\n"
         info += "等级："+str(self.level)+" "
         info += "经验："+str(self.exp)+"\n"
@@ -128,7 +128,7 @@ class BattleProcess:
             self.result =  "我方HP：0 我方濒死\n"
             return False
         if(b.defensive()>=a.attack()):
-            self.result =  "对方DEF："+str(b.defensive())+" 我方ATK："+str(a.attack())+"\n打不过\n"
+            self.result =  "对方DEF："+str(b.defensive())+" 我方ATK："+str(a.attack())+"　打不过\n"
             return False
         for i in range(30):
             b.hp -= self.oneRound(a,b,True)
