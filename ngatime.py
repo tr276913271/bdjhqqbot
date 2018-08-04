@@ -37,7 +37,8 @@ def ngaTask(bot):
         title = linkspan.text
         #这里有个判断
         time += ':00'
-        time = datetime.datetime.strftime(time, '%Y-%m-%d %H:%M:%S')
+        time = '20'+time
+        time = datetime.datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
         if time > sqlMaxTime :
             DBHelper().insert("INSERT INTO `nga` (`posttime`, `superlink`, `potitle`) VALUES ('"+str(time)+"','"+str(link)+"','"+str(title)+"')")
         
@@ -54,9 +55,10 @@ def ngaTask(bot):
         title = linkspan.text
         #这里有个判断
         time += ':00'
-        time = datetime.datetime.strftime(time, '%Y-%m-%d %H:%M:%S')
+        time = '20'+time
+        time = datetime.datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
         if time > sqlMaxTime :
             DBHelper().insert("INSERT INTO `nga` (`posttime`, `superlink`, `potitle`) VALUES ('"+str(time)+"','"+str(link)+"','"+str(title)+"')")
         
     #更新sqlMaxTime的时间
-    DBHelper().update("update nga set `posttime`='"+nowtime+"' where poid=1"))
+    DBHelper().update("update nga set `posttime`='"+nowtime+"' where poid=1")
