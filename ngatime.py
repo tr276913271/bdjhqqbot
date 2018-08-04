@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from qqbot import qqbotsched
 from db_module.connect_db import DBHelper
 
-@qqbotsched(hour='9,12,15,18,21', minute='30')
+@qqbotsched(hour='9,13,18,21', minute='30')
 def ngaTask(bot):
 
     sqlMaxTime = DBHelper().selectOne("select posttime from nga where poid = 1")
