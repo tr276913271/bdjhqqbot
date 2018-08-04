@@ -18,6 +18,7 @@ from battle_module.profession_service import ProfessionService
 from battle_module.weapon_service import WeaponService
 from other_module.instructions import InstructionsIntroduce
 from big_gay_module.bank_service import BankService
+from other_module.ngaFix import NgaQuest
 
 def onQQMessage(bot, contact, member, content):
     if content[: 5: ] != '[@ME]':
@@ -74,6 +75,9 @@ def onQQMessage(bot, contact, member, content):
     # A岛常用串
     elif GuidePost().commonPostIf(content):
         bot.SendTo(contact, GuidePost().commonPostIfFun(content))
+    #WOW更新
+    elif NgaQuest().ngaFixQAIf(content):
+        bot.SendTo(contact,NgaQuest().ngaFixQAIfFix(content))
     # 图灵API
     #else :
         #return bot.SendTo(contact, TuringService().service(content))
