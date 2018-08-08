@@ -19,6 +19,7 @@ from battle_module.weapon_service import WeaponService
 from other_module.instructions import InstructionsIntroduce
 from big_gay_module.bank_service import BankService
 from other_module.ngaFix import NgaQuest
+from other_module.busDriver import himeBus
 
 def onQQMessage(bot, contact, member, content):
     if content[: 5: ] != '[@ME]':
@@ -84,6 +85,11 @@ def onQQMessage(bot, contact, member, content):
     # 指令查询
     elif InstructionsIntroduce().instructionsIf(content):
         bot.SendTo(contact,InstructionsIntroduce().orderIntroduce())
+    # 停车场系统
+    elif himeBus().driverHimeif(content):
+        bot.SendTo(contact,himeBus().driverHime(content))
+    
+    
     #茉莉API
     else :
         if member.name == '纯天然超污染':
