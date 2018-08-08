@@ -13,7 +13,7 @@ class himeBus:
         content = content.strip(' ')
         px = {'http': 'http://127.0.0.1:1081','https':'https://127.0.0.1:1081'}
         try:
-            r = requests.get("https://btso.pw/search/" + content, proxies=px)
+            r = requests.get("https://btso.pw/search/" + content, proxies=px, timeout=6)
             r.raise_for_status()
             soup = BeautifulSoup(r.text)
             dataAll = soup.select('div[class="row"]')
@@ -28,7 +28,7 @@ class himeBus:
                         data = rowX.find('a')
                         linkTemp = data.get('href')
             
-            rMagnet = requests.get(linkTemp, proxies=px)
+            rMagnet = requests.get(linkTemp, proxies=px, timeout=6)
             r.raise_for_status()
             soupMagnet = BeautifulSoup(rMagnet.text)
             magnetLink = soupMagnet.find('textarea')
