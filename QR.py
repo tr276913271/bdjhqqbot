@@ -20,6 +20,7 @@ from other_module.instructions import InstructionsIntroduce
 from big_gay_module.bank_service import BankService
 from other_module.ngaFix import NgaQuest
 from other_module.busDriver import himeBus
+from other_module.idImage import idImageSuperLink
 
 def onQQMessage(bot, contact, member, content):
     if content[: 5: ] != '[@ME]':
@@ -88,6 +89,9 @@ def onQQMessage(bot, contact, member, content):
     # 停车场系统
     elif himeBus().driverHimeif(content):
         bot.SendTo(contact,himeBus().driverHime(content))
+    # 识图功能
+    elif idImageSuperLink().identifyIf(content):
+        bot.SendTo(contact, idImageSuperLink().identifyImage(content))
     
     
     #茉莉API
