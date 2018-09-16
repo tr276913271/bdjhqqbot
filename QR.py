@@ -21,6 +21,7 @@ from big_gay_module.bank_service import BankService
 from other_module.ngaFix import NgaQuest
 from other_module.busDriver import himeBus
 from other_module.idImage import idImageSuperLink
+from other_module.roll import SignInRoll
 
 def onQQMessage(bot, contact, member, content):
     if content[: 5: ] != '[@ME]':
@@ -93,7 +94,13 @@ def onQQMessage(bot, contact, member, content):
     elif idImageSuperLink().identifyIf(content):
         bot.SendTo(contact, idImageSuperLink().identifyImage(content))
     
-    
+    elif SignInRoll().signInRollIf(content):
+        bot.SendTo(contact,SignInRoll().signRollIfSet(member.name))
+    elif SignInRoll().enrollIf(content):
+        bot.SendTo(contact,SignInRoll().enroll(member.name))
+    elif SignInRoll().judgmentif(member.name,content):
+        bot.SendTo(contact,SignInRoll().judgment())
+
     #茉莉API
     else :
     #    if member.name == '纯天然超污染':
