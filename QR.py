@@ -21,7 +21,7 @@ from big_gay_module.bank_service import BankService
 from other_module.ngaFix import NgaQuest
 from other_module.busDriver import himeBus
 from other_module.idImage import idImageSuperLink
-from other_module.roll import SignInRoll
+from other_module.signroll import SignInRoll
 
 def onQQMessage(bot, contact, member, content):
     if content[: 5: ] != '[@ME]':

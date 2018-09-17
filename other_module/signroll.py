@@ -1,39 +1,44 @@
 #- * -coding: utf - 8 - * -
 import random
-
+#rollListSet = False
+#rollList = {}
+rollListSet = False
+rollList = {}
 class SignInRoll:
-    rollListSet = False
+    #rollListSet = False
     def signRollIfSet(self,member):
-        if member != '铁花':
+        if member != '只是一只孤狼的' :
             menstr = '需要管理员创建ROLL点表'
         else:
+            global rollListSet
             rollListSet = True
-            rollList = {}
+            #rollList = {}
             menstr = '已创建列表'
         return menstr
     
     def signInRollIf(self,content):
-        if content.find('创建列表') >= 0:
+        if content.find('创建ROLL卡活动') >= 0:
             return True
         else:
             return False
     
     def enrollIf(self,content):
-        if content.find('报名') >= 0 :
+        if content.find('给我也来一个') >= 0 :
             return True
         else:
             return False
 
     def enroll(self,member):
-        if rollListSet = True and member not in self.rollList :
+        global rollList
+        if rollListSet == True and member not in rollList :
             rollValue = random.randint(1,100)
-            self.rollList[member]=rollValue
-            return '报名成功'
+            rollList[member]=rollValue
+            return '参与成功了'
         else:
-            return '重复报名了'
+            return '重复报名或者还没开启活动呢'
 
-    def judgmentif(self,member,contet):
-        if member = '铁花' and content.find('roll点开始'):
+    def judgmentif(self,member,content):
+        if member == '只是一只孤狼的' and content.find('活动开始！') >= 0 :
             return True
         else:
             return False
@@ -42,12 +47,15 @@ class SignInRoll:
         maxRoll = 0
         maxName = ''
         menstr = ''
+        global rollListSet
+        global rollList
         rollListSet = False
-        for key,value in self.rollList.iteritems():
-            menstr += key + 'ROLL了' + self.rollList + '点 \n'
+        for key,value in rollList.items():
+            menstr += key + 'ROLL了' + str(value) + '点 \n'
             if rollList[key] > maxRoll:
                 maxRoll = rollList[key]
                 maxName = key
-            menstr += '胜利者是' + maxName + 'ROll了' + maxRoll + '点'
+        menstr += '胜利者是' + maxName + 'ROll了' + str(maxRoll) + '点'
+        rollList.clear()
         return menstr
         
