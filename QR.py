@@ -22,9 +22,14 @@ from other_module.ngaFix import NgaQuest
 from other_module.busDriver import himeBus
 from other_module.idImage import idImageSuperLink
 from other_module.signroll import SignInRoll
+from singlepoeple_moudule.singlemoli import SingleMoliService
 
 def onQQMessage(bot, contact, member, content):
-    if content[: 5: ] != '[@ME]':
+    if contact.ctype == 'buddy' and contact.uin != '2033459315':
+        bot.SendTo(contact,SingleMoliService().mlservice(content))
+        return 0
+
+    elif content[: 5: ] != '[@ME]':
         return 0
     content = content[7:]
     ## 如果是敏感词
