@@ -26,7 +26,8 @@ from singlepoeple_moudule.singlemoli import SingleMoliService
 
 def onQQMessage(bot, contact, member, content):
     if contact.ctype == 'buddy' and contact.uin != '2033459315':
-        bot.SendTo(contact,SingleMoliService().mlservice(content))
+        bot.SendTo(contact,SingleMoliService().mlservice(content,contact.name))
+
         return 0
 
     elif content[: 5: ] != '[@ME]':

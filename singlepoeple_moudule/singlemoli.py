@@ -2,11 +2,11 @@
 import json, requests, random
 
 class SingleMoliService:
-    def mlservice(self, content):
+    def mlservice(self, content,qqName):
         moliDate = {
             "question":content,
-            "api_key":'ecb213916c9ea309282c99bae0791e8d',
-            "api_secret":'6cg8y8nh7vit'
+            "api_key":'',
+            "api_secret":''
         }
         rs = requests.post('http://i.itpk.cn/api.php', data = moliDate)
         rs = rs.text
@@ -20,4 +20,6 @@ class SingleMoliService:
             rs = '暂时不支持的功能哦~'
             return rs
         else:
+            if qqNumber == '315451609':
+                rs = rs.replace('你','爸爸')
             return rs
